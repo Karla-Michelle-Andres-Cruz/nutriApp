@@ -43,7 +43,6 @@
 
 -   *Procedimiento:*
 
-{=html}
 <!-- -->
 
 -   Se seleccionaron tres aplicaciones con alta relevancia en el

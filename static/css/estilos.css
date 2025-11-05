@@ -1,0 +1,14 @@
+.card {
+    max-height: 600px;
+    overflow: hidden; 
+}
+
+.card img {
+    height: 320px;
+    object-fit: cover;
+}
+
+.card-text {
+    max-height: 150px; 
+    overflow-y: auto;
+}

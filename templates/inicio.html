@@ -1,17 +1,62 @@
 {% extends "index.html" %}
 {% block content %}
-<div class= "container">
-    <div class= "row"> 
 
-    <div class="card text-center" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">
+        Bienvenido: {{ session['usuario'] }}
+    </h1>
+
+    <p class="text-center mx-auto" style="font-family: 'Delius', system-ui; font-size: 18px;">
+        En nuestra aplicación web te ayudaremos a diseñar una <strong>dieta balanceada y personalizada</strong> basada en los alimentos que tengas en casa o que sean fáciles de conseguir.  
+        Gracias a la <strong>API de la USDA FoodData Central</strong>, podrás conocer el <strong>valor nutricional exacto</strong> de cada ingrediente (calorías, proteínas, grasas, vitaminas y minerales).  
+        Además, la aplicación incluirá herramientas adicionales totalmente gratuitas, pensadas para personas que buscan <strong>cuidar su salud sin necesidad de pagar por una app premium</strong>.
+    </p>
+
+    <div class="row mt-5 g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <img src="https://www.shutterstock.com/image-vector/nutrition-choices-healthy-diet-nutritionist-600nw-2248998197.jpg" class="card-img-top" alt="Análisis nutricional">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Análisis Nutricional</h5>
+                    <p class="card-text text-justify">
+                        Consulta el valor nutricional de los alimentos que consumes.  
+                        Nuestra app usa la base de datos oficial de la <strong>USDA FoodData Central</strong> para mostrar información precisa sobre calorías, macronutrientes y vitaminas de cada producto.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <img src="https://www.shutterstock.com/image-vector/personalized-nutrition-mindful-healthy-diet-260nw-2361097011.jpg" class="card-img-top" alt="Dieta personalizada">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Dieta Personalizada</h5>
+                    <p class="card-text text-justify">
+                        Diseña tu dieta balanceada según los alimentos que tengas en casa.  
+                        El sistema te propondrá menús equilibrados y saludables adaptados a tus necesidades nutricionales y objetivos personales.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <img src="https://nutricionistadavidcerro.com/wp-content/uploads/2019/06/Calcular-MB.png" class="card-img-top" alt="Herramientas de salud">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Herramientas de Salud</h5>
+                    <p class="card-text text-justify">
+                        Calcula tu <strong>Tasa Metabólica Basal (TMB)</strong>, tu <strong>Índice de Masa Corporal (IMC)</strong> y controla tu progreso.  
+                        Todas las funciones son gratuitas y fáciles de usar para mejorar tu bienestar sin complicaciones.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <p class="text-center mt-5" style="font-family: 'Delius', system-ui; font-size: 18px;">
+      Esta Aplicacion es elaborada por: Karla Michelle Andres Cruz y Jaime Alberto Espinoza Martinez
+    </p>
 
 </div>
+
 {% endblock %}

@@ -105,5 +105,64 @@ def cerrarsesion():
     flash("Has cerrado sesión exitosamente", "success")
     return redirect(url_for("inicio"))
 
+@app.route('/calculadoras', methods=['GET', 'POST'])
+def calculadoras():
+    if request.method == 'POST':
+        
+        if 'calcular_imc' in request.form:
+            peso = float(request.form['peso_imc'])
+            altura = float(request.form['altura_imc'])
+            imc = peso / (altura ** 2)
+            imc_resultado = f"Tu IMC es: {imc:.2f}"
+        
+        if 'calcular_tmb' in request.form:
+            edad = int(request.form['edad_tmb'])
+            peso = float(request.form['peso_tmb'])
+            altura = float(request.form['altura_tmb'])
+            sexo = request.form['sexo_tmb']
+            if sexo == 'hombre':
+                tmb = 10 * peso + 6.25 * altura - 5 * edad + 5
+            else:
+                tmb = 10 * peso + 6.25 * altura - 5 * edad - 161
+            tmb_resultado = f"Tu TMB es: {tmb:.2f} kcal/día"
+
+        if 'calcular_gct' in request.form:
+            tmb = float(request.form['tmb_gct'])
+            actividad = request.form['actividad_gct']
+            if actividad == 'sedentario':
+                gct = tmb * 1.2
+            elif actividad == 'ligera':
+                gct = tmb * 1.375
+            elif actividad == 'moderada':
+                gct = tmb * 1.55
+            elif actividad == 'intensa':
+                gct = tmb * 1.725
+            gct_resultado = f"Tu GCT es: {gct:.2f} kcal/día"
+
+        if 'calcular_peso_ideal' in request.form:
+            altura = float(request.form['altura_ideal'])
+            sexo = request.form['sexo_ideal']
+            if sexo == 'hombre':
+                peso_ideal = altura - 100 - ((altura - 150) / 4)
+            else:
+                peso_ideal = altura - 100 - ((altura - 150) / 2)
+            peso_ideal_resultado = f"Tu peso ideal es: {peso_ideal:.2f} kg"
+
+        if 'calcular_macronutrientes' in request.form:
+            gct = float(request.form['gct_macronutrientes'])
+            proteinas = gct * 0.25 / 4
+            carbohidratos = gct * 0.45 / 4
+            grasas = gct * 0.30 / 9
+            macronutrientes_resultado = f"Proteínas: {proteinas:.2f} g, Carbohidratos: {carbohidratos:.2f} g, Grasas: {grasas:.2f} g"
+
+        return render_template("calculadoras.html", 
+                                imc_resultado=imc_resultado,
+                                tmb_resultado=tmb_resultado,
+                                gct_resultado=gct_resultado,
+                                peso_ideal_resultado=peso_ideal_resultado,
+                                macronutrientes_resultado=macronutrientes_resultado)
+
+    return render_template("calculadoras.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,124 @@
+{% extends "index.html" %}
+
+{% block content %}
+<body class="p-3 mb-2 text-secondary-emphasis" style="background-color: #f8f9fa;">
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Calculadoras de Salud</h2>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Calculadora de Índice de Masa Corporal (IMC)</h4>
+            </div>
+            <div class="card-body">
+                <form id="imcForm">
+                    <div class="mb-3">
+                        <label for="peso" class="form-label">Peso (kg):</label>
+                        <input type="number" class="form-control" id="peso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="altura" class="form-label">Altura (m):</label>
+                        <input type="number" class="form-control" id="altura" step="0.01" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calcularIMC()">Calcular IMC</button>
+                </form>
+                <div id="resultadoIMC" class="mt-3"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Calculadora de Tasa Metabólica Basal (TMB)</h4>
+            </div>
+            <div class="card-body">
+                <form id="tmbForm">
+                    <div class="mb-3">
+                        <label for="edad" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="edad" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pesoTMB" class="form-label">Peso (kg):</label>
+                        <input type="number" class="form-control" id="pesoTMB" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alturaTMB" class="form-label">Altura (cm):</label>
+                        <input type="number" class="form-control" id="alturaTMB" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sexo" class="form-label">Sexo:</label>
+                        <select class="form-control" id="sexo">
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calcularTMB()">Calcular TMB</button>
+                </form>
+                <div id="resultadoTMB" class="mt-3"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Calculadora de Gasto Calórico Total (GCT)</h4>
+            </div>
+            <div class="card-body">
+                <form id="gctForm">
+                    <div class="mb-3">
+                        <label for="tmbGCT" class="form-label">TMB (kcal):</label>
+                        <input type="number" class="form-control" id="tmbGCT" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="actividad" class="form-label">Nivel de Actividad:</label>
+                        <select class="form-control" id="actividad">
+                            <option value="sedentario">Sedentario</option>
+                            <option value="ligera">Actividad ligera</option>
+                            <option value="moderada">Actividad moderada</option>
+                            <option value="intensa">Actividad intensa</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calcularGCT()">Calcular GCT</button>
+                </form>
+                <div id="resultadoGCT" class="mt-3"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Calculadora de Peso Corporal Ideal</h4>
+            </div>
+            <div class="card-body">
+                <form id="pesoIdealForm">
+                    <div class="mb-3">
+                        <label for="alturaIdeal" class="form-label">Altura (cm):</label>
+                        <input type="number" class="form-control" id="alturaIdeal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sexoIdeal" class="form-label">Sexo:</label>
+                        <select class="form-control" id="sexoIdeal">
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calcularPesoIdeal()">Calcular Peso Ideal</button>
+                </form>
+                <div id="resultadoPesoIdeal" class="mt-3"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Calculadora de Macronutrientes</h4>
+            </div>
+            <div class="card-body">
+                <form id="macronutrientesForm">
+                    <div class="mb-3">
+                        <label for="gctMacronutrientes" class="form-label">GCT (kcal):</label>
+                        <input type="number" class="form-control" id="gctMacronutrientes" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calcularMacronutrientes()">Calcular Macronutrientes</button>
+                </form>
+                <div id="resultadoMacronutrientes" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

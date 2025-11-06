@@ -25,6 +25,7 @@
                     </div>
 
                     <div class="row">
+                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Informacion Personal</h1>
                         <div class="col-6 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required
                                 minlength="3" maxlength="100" value="{{ request.form.get('nombre','') }}">
@@ -33,8 +34,22 @@
                             <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="apellido" placeholder="Apellido(s)" required
                                 minlength="3" maxlength="100" value="{{ request.form.get('apellido','') }}">
                         </div>
+                        <div class="col-6 mb-3">
+                            <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="edad" placeholder="Edad" required
+                                minlength="3" maxlength="100" value="{{ request.form.get('edad','') }}">
+                        </div>
+                        <div class="mb-3">
+                        <label style="font-family: 'Leckerli One', system-ui; font-size: 25px;" for="genero" class="form-label">Género</label>
+                        <select class="form-select rounded-pill" id="genero" name="genero" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="masculino">Hombre</option>
+                            <option value="femenino">Mujer</option>
+                            <option value="otro">Otro</option>
+                            <option value="prefinodecir">Prefiero no decirlo</option>
+                        </select>
+                        </div>
                     </div>
-
+                    <hr>
 
                 <div class="mb-3 row">
                     <div class="col">
@@ -76,16 +91,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label style="font-family: 'Leckerli One', system-ui; font-size: 25px;" for="genero" class="form-label">Género</label>
-                        <select class="form-select rounded-pill" id="genero" name="genero" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona una opción</option>
-                            <option value="masculino">Hombre</option>
-                            <option value="femenino">Mujer</option>
-                            <option value="otro">Otro</option>
-                            <option value="prefinodecir">Prefiero no decirlo</option>
-                        </select>
-                    </div>
+                    
 
                     <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 25px;" class="form-label">Objetivo principal</label>
@@ -127,7 +133,7 @@
                             placeholder="Confirma tu contraseña" required minlength="8" maxlength="25">
                     </div>
 
-                    <button style="font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Registrarme</button>
+                    <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Registrarme</button>
                     <hr>
 
                     <p class="text-center">

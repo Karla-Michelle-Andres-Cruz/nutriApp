@@ -24,36 +24,6 @@ def perfil():
     usuario = usuarioR.get(email, {})
     return render_template('perfilUsuarios.html', usuario=usuario)
 
-@app.route('/actualizarPerfil', methods=['POST'])
-def actualizarPerfil():
-    email = session.get('usuario_email')
-    if not email:
-        flash("No se encontró el usuario en sesión", "error")
-        return redirect(url_for('sesion'))
-
-    if email not in usuarioR:
-        flash("Usuario no encontrado", "error")
-        return redirect(url_for('sesion'))
-
-    usuarioR[email].update({
-        'nombre': request.form['nombre'],
-        'apellidos': request.form['apellidos'],
-        'edad': request.form['edad'],
-        'sexo': request.form['sexo'],
-        'peso': request.form['peso'],
-        'altura': request.form['altura'],
-        'actividad': request.form['actividad'],
-        'objetivo': request.form['objetivo'],
-        'alergias': request.form['alergias'],
-        'intolerancias': request.form['intolerancias'],
-        'dieta': request.form['dieta'],
-        'no_gusta': request.form['no_gusta'],
-        'experiencia': request.form['experiencia']
-    })
-
-    flash("Perfil actualizado correctamente", "success")
-    return redirect(url_for('perfil'))
-
 @app.route("/registro")
 def registro():
     dias = list(range(1, 32))
@@ -71,6 +41,8 @@ def registrame():
     email = request.form["email"]
     contraseña = request.form["contraseña"]
     conf_contraseña = request.form["confirmaContraseña"]
+    peso = float(request.form["peso"])
+    altura = float(request.form["altura"])
 
     if contraseña != conf_contraseña:
         flash("La contraseña no coincide", "error")
@@ -85,6 +57,8 @@ def registrame():
     'apellido': apellidos,
     'genero': genero,
     'email': email,
+    'peso': peso,
+    'altura': altura,
     'contraseña': contraseña,
     'objetivo': request.form.get('objetivo'),
     'restricciones': request.form.get('restricciones'),

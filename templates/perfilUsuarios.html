@@ -10,24 +10,26 @@
       {% if usuario %}
       <div class="row">
         <div class="col-md-6">
-          <h5 class="fw-bold text-secondary">Información Personal</h5>
-          <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-          <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
-          <p><strong>Género:</strong> {{ usuario.genero }}</p>
-          <p><strong>Correo:</strong> {{ usuario.email }}</p>
+          <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Información Personal</h5>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Género:</strong> {{ usuario.genero }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Correo:</strong> {{ usuario.email }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Peso:</strong> {{ usuario.peso }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Altura:</strong> {{ usuario.altura }}</p>
         </div>
 
         <div class="col-md-6">
-          <h5 class="fw-bold text-secondary">Datos de Salud y Preferencias</h5>
-          <p><strong>Objetivo:</strong>
+          <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Datos de Salud y Preferencias</h5>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Objetivo:</strong>
             {% if usuario.objetivo == 'bajar_peso' %}Bajar de peso{%
             elif usuario.objetivo == 'mantener_peso' %}Mantener peso{%
             elif usuario.objetivo == 'ganar_masa' %}Ganar masa muscular{%
             elif usuario.objetivo == 'mejorar_salud' %}Mejorar salud general{%
             else %}No especificado{% endif %}
           </p>
-          <p><strong>Restricciones / Preferencias:</strong> {{ usuario.restricciones or "Ninguna especificada" }}</p>
-          <p><strong>Nivel de experiencia:</strong>
+          <p style="font-family: 'Leckerli One', cursive;"><strong>Restricciones / Preferencias:</strong> {{ usuario.restricciones or "Ninguna especificada" }}</p>
+          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nivel de experiencia al cocinar:</strong>
             {% if usuario.experiencia == 'principiante' %}Principiante{%
             elif usuario.experiencia == 'intermedio' %}Intermedio{%
             elif usuario.experiencia == 'avanzado' %}Avanzado{%
@@ -42,7 +44,7 @@
       {% endif %}
 
       <div class="text-center mt-4">
-        <a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
+        <a style="font-family: 'Leckerli One', cursive;" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
       </div>
     </div>
   </div>

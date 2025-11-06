@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{% block content %}
+
+<body class="p-3 mb-2 text-secondary-emphasis" style="background-color: #f8f9fa;">
+  <div class="container mt-5">
+    <div class="card shadow-lg p-4" style="border-radius: 20px;">
+      <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Perfil del Usuario</h2>
+      <hr>
+
+      {% if usuario %}
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="fw-bold text-secondary">Información Personal</h5>
+          <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+          <p><strong>Género:</strong> {{ usuario.genero }}</p>
+          <p><strong>Correo:</strong> {{ usuario.email }}</p>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="fw-bold text-secondary">Datos de Salud y Preferencias</h5>
+          <p><strong>Objetivo:</strong>
+            {% if usuario.objetivo == 'bajar_peso' %}Bajar de peso{%
+            elif usuario.objetivo == 'mantener_peso' %}Mantener peso{%
+            elif usuario.objetivo == 'ganar_masa' %}Ganar masa muscular{%
+            elif usuario.objetivo == 'mejorar_salud' %}Mejorar salud general{%
+            else %}No especificado{% endif %}
+          </p>
+          <p><strong>Restricciones / Preferencias:</strong> {{ usuario.restricciones or "Ninguna especificada" }}</p>
+          <p><strong>Nivel de experiencia:</strong>
+            {% if usuario.experiencia == 'principiante' %}Principiante{%
+            elif usuario.experiencia == 'intermedio' %}Intermedio{%
+            elif usuario.experiencia == 'avanzado' %}Avanzado{%
+            else %}No especificado{% endif %}
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-warning text-center">
+        No se encontró información del usuario.
+      </div>
+      {% endif %}
+
+      <div class="text-center mt-4">
+        <a href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+{% endblock %}

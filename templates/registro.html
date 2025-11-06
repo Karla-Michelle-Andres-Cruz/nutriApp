@@ -1,100 +1,128 @@
-{% extends "index.html" %} {% block content %}
+{% extends "index.html" %}
+{% block content %}
 
 <body class="p-3 mb-2 text-secondary-emphasis" style="background-color: #F8E8EE;">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
-                <form id="registrationForm" method="post" action="/registrame" class="rounded p-4 mt-5 shadow-lg p-3 mb-5 bg-body-tertiary" style="background-color: #ffffff;">
-                    <h1 class="text-center">Crea una cuenta
-                    </h1>
+            <div class="col-md-6">
+                <form id="registrationForm" method="post" action="/registrame"
+                    class="rounded p-4 mt-5 shadow-lg p-3 mb-5 bg-body-tertiary" style="background-color: #ffffff;">
+                    <h1 class="text-center">Crea una cuenta</h1>
                     <hr>
+
                     <div class="container mt-4">
                         {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                                {% for category, message in messages %}
-                                    <div class="alert alert-{{ 'danger' if category == 'error' else 'danger'}} alert-dismissible-fade-show" role="alert">
-                                        {{ message }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else 'success'}} alert-dismissible fade show"
+                            role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                         {% endwith %}
                     </div>
 
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <input type="text" class="form-control" id="firstName" name="nombre" placeholder="Nombre(s)"
-                                required minlength="3" maxlength="100" value = "{{ request.form.get("nombre",'')}}">
+                            <input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required
+                                minlength="3" maxlength="100" value="{{ request.form.get('nombre','') }}">
                         </div>
                         <div class="col-6 mb-3">
-                            <input type="text" class="form-control" id="lastName" name="apellido" placeholder="Apellido(s)"
-                                required minlength="3" maxlength="100" value = "{{ request.form.get("apellido",'')}}">
+                            <input type="text" class="form-control" name="apellido" placeholder="Apellido(s)" required
+                                minlength="3" maxlength="100" value="{{ request.form.get('apellido','') }}">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="diaN" class="form-label">Fecha de nacimiento</label>
+                        <label class="form-label">Fecha de nacimiento</label>
                         <div class="col">
-                            <select class="form-select" id="birthDay" name="dia" required>
+                            <select class="form-select" name="dia" required>
                                 <option value="">Día</option>
-                                    {% for dia in dias %}
-                                <option value="{{ dia }}" {% if request.form.get("dia") == dia %} selected {% endif %}>{{ dia }}</option>
-                                    {% endfor %}
+                                {% for dia in dias %}
+                                <option value="{{ dia }}" {% if request.form.get("dia")==dia %} selected {% endif %}>{{
+                                    dia }}</option>
+                                {% endfor %}
                             </select>
                         </div>
-
                         <div class="col">
-                            <select class="form-select" id="mesN" name="mes" required>
+                            <select class="form-select" name="mes" required>
                                 <option value="">Mes</option>
-                                    {% for mes in meses %}
-                                <option value="{{ mes }}" {% if request.form.get("mes") == mes %} selected {% endif %}>{{ mes }}</option>
-                                    {% endfor %}
+                                {% for mes in meses %}
+                                <option value="{{ mes }}" {% if request.form.get("mes")==mes %} selected {% endif %}>{{
+                                    mes }}</option>
+                                {% endfor %}
                             </select>
                         </div>
-
                         <div class="col">
-                            <select class="form-select" id="añoN" name="año" required>
+                            <select class="form-select" name="año" required>
                                 <option value="">Año</option>
-                                    {% for año in años %}
-                                <option value="{{ año }}" {% if request.form.get("año") == año %} selected {% endif %}>{{ año }}</option>
-                                    {% endfor %}
+                                {% for año in años %}
+                                <option value="{{ año }}" {% if request.form.get("año")==año %} selected {% endif %}>{{
+                                    año }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="gender" class="form-label">Género</label>
-                        <div class="d-flex justify-content-between mb-3">
-                            <select class = "form-select rounded-pill" id="genero" name="genero" required>
-                                <option value="" disable selected>Selecciona una opción</option>
-                                <option value="masculino" {% if request.form.get("genero") == "masculino" %} selected {% endif %}>Hombre</option>
-                                <option value="femenino" {% if request.form.get("genero") == "femenino" %} selected {% endif %}>Mujer</option>
-                                <option value="otro" {% if request.form.get("genero") == "otro" %} select {% endif%}>Otro</option>
-                                <option value="prefinodecir" {% if request.form.get("genero") == "prefinodecir" %} select {% endif%}>Prefiero no decirlo</option>
-                            </select>
-                        </div>
+                        <label for="genero" class="form-label">Género</label>
+                        <select class="form-select rounded-pill" id="genero" name="genero" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="masculino">Hombre</option>
+                            <option value="femenino">Mujer</option>
+                            <option value="otro">Otro</option>
+                            <option value="prefinodecir">Prefiero no decirlo</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
-                        <input type="email" class="form-control" id="email" name="email"
-                            placeholder="Correo electrónico" required
-                            pattern= "[a-z0-9._%+-]+@[a^z0-9.-]+\,[a-z]{2,}$"
-                            value= "{{request.form.get("email",'')}}">
+                        <label class="form-label">Objetivo principal</label>
+                        <select class="form-select rounded-pill" name="objetivo" required>
+                            <option value="">Selecciona tu objetivo</option>
+                            <option value="bajar_peso">Bajar de peso</option>
+                            <option value="mantener_peso">Mantener peso</option>
+                            <option value="ganar_masa">Ganar masa muscular</option>
+                            <option value="mejorar_salud">Mejorar salud general</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Preferencias o restricciones alimenticias</label>
+                        <textarea class="form-control" name="restricciones" rows="3"
+                            placeholder="Ejemplo: vegetariano, sin gluten, sin lactosa, no me gusta el pescado..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nivel de experiencia en nutrición o ejercicio</label>
+                        <select class="form-select rounded-pill" name="experiencia" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required
+                            value="{{ request.form.get('email','') }}">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="password" name="contraseña" placeholder="Contraseña nueva"
+                        <input type="password" class="form-control" name="contraseña" placeholder="Contraseña nueva"
                             required minlength="8" maxlength="25">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="confirPassword" name="confirmaContraseña" placeholder="Confirma tu contraseña"
-                            required minlength="8" maxlength="25">
+                        <input type="password" class="form-control" name="confirmaContraseña"
+                            placeholder="Confirma tu contraseña" required minlength="8" maxlength="25">
                     </div>
-                    <button type="submit" class="btn btn-light w-100"
-                        >Registrame</button>
+
+                    <button type="submit" class="btn btn-light w-100">Registrarme</button>
                     <hr>
+
                     <p class="text-center">
-                        <a href="http://127.0.0.1:5000/inicioSesión" class="text-black text-decoration-none"
-                            >¿Ya tienes una cuenta?</a>
+                        <a href="{{ url_for('sesion') }}" class="text-black text-decoration-none">¿Ya tienes una
+                            cuenta?</a>
                     </p>
                 </form>
             </div>

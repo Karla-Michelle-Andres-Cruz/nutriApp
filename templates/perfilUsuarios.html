@@ -28,7 +28,6 @@
             elif usuario.objetivo == 'mejorar_salud' %}Mejorar salud general{%
             else %}No especificado{% endif %}
           </p>
-          <p style="font-family: 'Leckerli One', cursive;"><strong>Restricciones / Preferencias:</strong> {{ usuario.restricciones or "Ninguna especificada" }}</p>
           <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nivel de experiencia al cocinar:</strong>
             {% if usuario.experiencia == 'principiante' %}Principiante{%
             elif usuario.experiencia == 'intermedio' %}Intermedio{%

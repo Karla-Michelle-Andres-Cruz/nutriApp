@@ -54,14 +54,14 @@
                 <div class="mb-3 row">
                     <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Datos Físicos</h1>
                     <div class="col">
-                        <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="edad" placeholder="Edad" required
-                            minlength="3" maxlength="100" value="{{ request.form.get('edad','') }}">
+                        <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="edad" placeholder="Edad" required
+                            value="{{ request.form.get('edad','') }}">
                     </div>
                     <div class="col">
-                        <input type="number" step="0.1" class="form-control" name="peso" placeholder="Peso (kg)" value="{{ request.form.get('peso','') }}">
+                        <input type="number" step="0.01" class="form-control" name="peso" placeholder="Peso (kg)" value="{{ request.form.get('peso','') }}">
                     </div>
                     <div class="col">
-                        <input type="number" step="0.1" class="form-control" name="altura" placeholder="Altura (cm)" value="{{ request.form.get('altura','') }}">
+                        <input type="number" step="0.01" class="form-control" name="altura" placeholder="Altura (cm)" value="{{ request.form.get('altura','') }}">
                     </div>
                     <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="genero" class="form-label">Género</label>

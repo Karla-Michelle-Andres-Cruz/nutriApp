@@ -6,17 +6,17 @@
         <h2 class="text-center mb-4">Calculadoras de Salud</h2>
         
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" >
                 <p style="font-family: 'Leckerli One', system-ui; font-size: 30px;">Calculadora de Índice de Masa Corporal (IMC)</p>
             </div>
             <div class="card-body">
                 <form id="imcForm">
                     <div class="mb-3">
-                        <label for="peso" class="form-label">Peso (kg):</label>
+                        <label for="peso" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Peso (kg):</label>
                         <input type="number" class="form-control" id="peso" required>
                     </div>
                     <div class="mb-3">
-                        <label for="altura" class="form-label">Altura (m):</label>
+                        <label for="altura" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Altura (m):</label>
                         <input type="number" class="form-control" id="altura" step="0.01" required>
                     </div>
                     <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 20px;" type="button" class="btn btn-light text-white" onclick="calcularIMC()">Calcular IMC</button>
@@ -26,26 +26,26 @@
         </div>
 
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" >
                 <p style="font-family: 'Leckerli One', system-ui; font-size: 30px;">Calculadora de Tasa Metabólica Basal (TMB)</p>
             </div>
             <div class="card-body">
                 <form id="tmbForm">
                     <div class="mb-3">
-                        <label for="edad" class="form-label">Edad:</label>
+                        <label for="edad" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Edad:</label>
                         <input type="number" class="form-control" id="edad" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pesoTMB" class="form-label">Peso (kg):</label>
+                        <label for="pesoTMB" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Peso (kg):</label>
                         <input type="number" class="form-control" id="pesoTMB" required>
                     </div>
                     <div class="mb-3">
-                        <label for="alturaTMB" class="form-label">Altura (cm):</label>
+                        <label for="alturaTMB" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Altura (cm):</label>
                         <input type="number" class="form-control" id="alturaTMB" required>
                     </div>
                     <div class="mb-3">
-                        <label for="sexo" class="form-label">Sexo:</label>
-                        <select class="form-control" id="sexo">
+                        <label for="sexo" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Sexo:</label>
+                        <select class="form-control" id="sexo" style="font-family: 'Delius', system-ui; font-size: 18px;">
                             <option value="hombre">Hombre</option>
                             <option value="mujer">Mujer</option>
                         </select>
@@ -57,18 +57,18 @@
         </div>
 
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" >
                 <p style="font-family: 'Leckerli One', system-ui; font-size: 30px;">Calculadora de Gasto Calórico Total (GCT)</p>
             </div>
             <div class="card-body">
                 <form id="gctForm">
                     <div class="mb-3">
-                        <label for="tmbGCT" class="form-label">TMB (kcal):</label>
+                        <label for="tmbGCT" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">TMB (kcal):</label>
                         <input type="number" class="form-control" id="tmbGCT" required>
                     </div>
                     <div class="mb-3">
-                        <label for="actividad" class="form-label">Nivel de Actividad:</label>
-                        <select class="form-control" id="actividad">
+                        <label for="actividad" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Nivel de Actividad:</label>
+                        <select class="form-control" id="actividad" style="font-family: 'Delius', system-ui; font-size: 18px;">
                             <option value="sedentario">Sedentario</option>
                             <option value="ligera">Actividad ligera</option>
                             <option value="moderada">Actividad moderada</option>
@@ -88,12 +88,12 @@
             <div class="card-body">
                 <form id="pesoIdealForm">
                     <div class="mb-3">
-                        <label for="alturaIdeal" class="form-label">Altura (cm):</label>
+                        <label for="alturaIdeal" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Altura (cm):</label>
                         <input type="number" class="form-control" id="alturaIdeal" required>
                     </div>
                     <div class="mb-3">
-                        <label for="sexoIdeal" class="form-label">Sexo:</label>
-                        <select class="form-control" id="sexoIdeal">
+                        <label for="sexoIdeal" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">Sexo:</label>
+                        <select class="form-control" id="sexoIdeal" style="font-family: 'Delius', system-ui; font-size: 18px;">
                             <option value="hombre">Hombre</option>
                             <option value="mujer">Mujer</option>
                         </select>
@@ -111,7 +111,7 @@
             <div class="card-body">
                 <form id="macronutrientesForm">
                     <div class="mb-3">
-                        <label for="gctMacronutrientes" class="form-label">GCT (kcal):</label>
+                        <label for="gctMacronutrientes" class="form-label" style="font-family: 'Delius', system-ui; font-size: 18px;">GCT (kcal):</label>
                         <input type="number" class="form-control" id="gctMacronutrientes" required>
                     </div>
                     <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 20px;" type="button" class="btn btn-light text-white" onclick="calcularMacronutrientes()">Calcular Macronutrientes</button>

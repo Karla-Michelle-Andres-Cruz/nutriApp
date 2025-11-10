@@ -1,7 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
 
-<body class="p-3 mb-2 text-secondary-emphasis" style="background-color: #F8E8EE;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -79,7 +78,7 @@
                     <div class="mb-3 row">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Fecha de nacimiento</label>
                         <div class="col">
-                            <select class="form-select" name="dia" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <select class="form-select rounded-pill" name="dia" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Día</option>
                                 {% for dia in dias %}
                                 <option value="{{ dia }}" {% if request.form.get("dia")==dia %} selected {% endif %}>{{
@@ -88,7 +87,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <select class="form-select" name="mes" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <select class="form-select rounded-pill" name="mes" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Mes</option>
                                 {% for mes in meses %}
                                 <option value="{{ mes }}" {% if request.form.get("mes")==mes %} selected {% endif %}>{{
@@ -97,7 +96,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <select class="form-select" name="año" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <select class="form-select rounded-pill" name="año" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Año</option>
                                 {% for año in años %}
                                 <option value="{{ año }}" {% if request.form.get("año")==año %} selected {% endif %}>{{
@@ -125,7 +124,7 @@
                             style="font-family: 'Leckerli One', system-ui; font-size: 20px;">
                             Nivel de actividad física:
                         </label>
-                        <select id="actividad" name="actividad" class="form-select"
+                        <select id="actividad" name="actividad" class="form-select rounded-pill"
                             style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="" {% if not request.form.get("actividad") %}selected{% endif %}>Selecciona
                                 una opción</option>
@@ -140,7 +139,19 @@
                         </select>
                     </div>
 
-                    
+                    <div class="mb-3">
+                        <label for="actividad" class="form-label"
+                            style="font-family: 'Leckerli One', system-ui; font-size: 20px;">
+                            Nivel de Cocina:
+                        </label>
+                        <select class="form-select rounded-pill" name="nivCo" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona tu objetivo</option>
+                            <option value="basico">Básico</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                            <option value="nivChef">Niveles de chef</option>
+                        </select>
+                    </div>
                     
 
                     <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Registrarme</button>
@@ -154,6 +165,5 @@
             </div>
         </div>
     </div>
-</body>
 
 {% endblock %}

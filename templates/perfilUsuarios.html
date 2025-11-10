@@ -1,10 +1,11 @@
 {% extends "index.html" %}
 {% block content %}
 
-<body class="p-3 mb-2 text-secondary-emphasis" style="background-color: #f8f9fa;">
   <div class="container mt-5">
+    <div class="row">
+    <div class="col-md-8 col-lg-6">
     <div class="card shadow-lg p-4" style="border-radius: 20px;">
-      <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Perfil del Usuario</h2>
+      <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Perfil del Usuario:</h2>
       <hr>
 
       {% if usuario %}
@@ -46,7 +47,59 @@
         <a style="font-family: 'Leckerli One', cursive;" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
       </div>
     </div>
+    </div>
+  
+
+<!-- salto para no confundirme -->
+
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg p-4" style="border-radius: 20px;">
+        <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Usuario:</h2>
+        <hr>
+  
+        {% if usuario %}
+        <div class="row">
+          <div class="col-md-6">
+            <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Información Personal</h5>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Género:</strong> {{ usuario.genero }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Correo:</strong> {{ usuario.email }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Peso:</strong> {{ usuario.peso }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Altura:</strong> {{ usuario.altura }}</p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Fecha de Nacimiento:</strong> {{ usuario.altura }}</p>
+
+          </div>
+  
+          <div class="col-md-6">
+            <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Datos de Salud y Preferencias</h5>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Objetivo:</strong>
+              {% if usuario.objetivo == 'bajar_peso' %}Bajar de peso{%
+              elif usuario.objetivo == 'mantener_peso' %}Mantener peso{%
+              elif usuario.objetivo == 'ganar_masa' %}Ganar masa muscular{%
+              elif usuario.objetivo == 'mejorar_salud' %}Mejorar salud general{%
+              else %}No especificado{% endif %}
+            </p>
+            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nivel de experiencia al cocinar:</strong>
+              {% if usuario.experiencia == 'principiante' %}Principiante{%
+              elif usuario.experiencia == 'intermedio' %}Intermedio{%
+              elif usuario.experiencia == 'avanzado' %}Avanzado{%
+              else %}No especificado{% endif %}
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center">
+          No se encontró información del usuario.
+        </div>
+        {% endif %}
+  
+        <div class="text-center mt-4">
+          <a style="font-family: 'Leckerli One', cursive;" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
+        </div>
+      </div>
+      </div>
+    
   </div>
-</body>
 
 {% endblock %}

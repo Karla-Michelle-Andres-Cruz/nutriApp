@@ -105,6 +105,42 @@ def cerrarsesion():
     flash("Has cerrado sesión exitosamente", "success")
     return redirect(url_for("inicio"))
 
+@app.route("/guardar_info_salud", methods=["POST"])
+def guardar_info_salud():
+    if 'usuario_email' not in session:
+        flash("Por favor, inicia sesión para actualizar tu información", "error")
+        return redirect(url_for('sesion'))
+
+    email = session['usuario_email']
+    usuario = usuarioR.get(email, {})
+
+    altura_cm = float(request.form['altura_cm'])
+    peso_actual_kg = float(request.form['peso_actual_kg'])
+    peso_objetivo_kg = float(request.form['peso_objetivo_kg'])
+    nivel_actividad = request.form['nivel_actividad']
+    objetivo_salud = request.form['objetivo_salud']
+    meta_semanal = request.form['meta_semanal']
+    condiciones_medicas = request.form['condiciones_medicas']
+    medicamentos = request.form['medicamentos']
+    alergias_alimentarias = request.form['alergias_alimentarias']
+    preferencias_alimenticias = request.form.getlist('preferencias_alimenticias')
+
+    usuarioR[email] = {
+        'altura_cm': altura_cm,
+        'peso_actual_kg': peso_actual_kg,
+        'peso_objetivo_kg': peso_objetivo_kg,
+        'nivel_actividad': nivel_actividad,
+        'objetivo_salud': objetivo_salud,
+        'meta_semanal': meta_semanal,
+        'condiciones_medicas': condiciones_medicas,
+        'medicamentos': medicamentos,
+        'alergias_alimentarias': alergias_alimentarias,
+        'preferencias_alimenticias': preferencias_alimenticias
+    }
+
+    flash("Información de salud actualizada con éxito", "success")
+    return redirect(url_for('perfil'))
+
 @app.route('/calculadoras', methods=['GET', 'POST'])
 def calculadoras():
     if request.method == 'POST':

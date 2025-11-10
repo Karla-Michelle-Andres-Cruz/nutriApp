@@ -7,44 +7,106 @@
     </h1>
 
     {% if usuario %}
-    <div class="user-info">
-        <h2 class="text-center" style="font-family: 'Leckerli One', system-ui; font-size: 32px;">
-            ¡Bienvenido {{ usuario['nombre'] }} {{ usuario['apellido'] }}!
-        </h2>
+        <div class="row mt-5 g-4">
+            <div class="col-md-8">
+                <form id="healthForm" method="post" action="/guardar_info_salud"
+                    class="rounded p-4 mt-5 shadow-lg p-3 mb-5 bg-body-tertiary" style="background-color: #ffffff;">
+                    <p style="font-family: 'Leckerli One', system-ui; font-size: 40px;" class="text-center">Actualizar Información de Salud</p>
+                    <p style="font-family: 'Delius', system-ui; font-size: 18px;" class="text-center">Actualiza tus datos para ayudarte en tu objetivo de salud</p>
+                    <hr>
 
-        <p class="text-center" style="font-family: 'Delius', system-ui; font-size: 18px;">
-            Tu información actual es:
-        </p>
+                    <div class="container mt-4">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else 'success'}} alert-dismissible fade show"
+                            role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
 
-        <div class="row text-center">
-            <div class="col-md-4">
-                <p><strong>Altura:</strong> {{ usuario['altura'] }} cm</p>
-            </div>
-            <div class="col-md-4">
-                <p><strong>Peso:</strong> {{ usuario['peso'] }} kg</p>
-            </div>
-            <div class="col-md-4">
-                <p><strong>Objetivo:</strong> {{ usuario['objetivo'] or 'No especificado' }}</p>
+                    <div class="row">
+                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Información Física</h1>
+                        <div class="col-6 mb-3">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="altura_cm" placeholder="Altura (cm)" required
+                                value="{{ request.form.get('altura_cm','') }}">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="peso_actual_kg" placeholder="Peso actual (kg)" required
+                                value="{{ request.form.get('peso_actual_kg','') }}">
+                        </div>
+                        
+                        <div class="col-6 mb-3">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="peso_objetivo_kg" placeholder="Peso objetivo (kg)" required
+                                value="{{ request.form.get('peso_objetivo_kg','') }}">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Nivel de actividad</label>
+                        <select class="form-select rounded-pill" name="nivel_actividad" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="sedentario" {% if request.form.get("nivel_actividad") == "sedentario" %}selected{% endif %}>Sedentario</option>
+                            <option value="ligero" {% if request.form.get("nivel_actividad") == "ligero" %}selected{% endif %}>Ligero</option>
+                            <option value="moderado" {% if request.form.get("nivel_actividad") == "moderado" %}selected{% endif %}>Moderado</option>
+                            <option value="activo" {% if request.form.get("nivel_actividad") == "activo" %}selected{% endif %}>Activo</option>
+                            <option value="muy_activo" {% if request.form.get("nivel_actividad") == "muy_activo" %}selected{% endif %}>Muy activo</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Objetivo de salud</label>
+                        <select class="form-select rounded-pill" name="objetivo_salud" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona tu objetivo</option>
+                            <option value="perder_peso" {% if request.form.get("objetivo_salud") == "perder_peso" %}selected{% endif %}>Perder peso</option>
+                            <option value="mantener_peso" {% if request.form.get("objetivo_salud") == "mantener_peso" %}selected{% endif %}>Mantener peso</option>
+                            <option value="ganar_musculo" {% if request.form.get("objetivo_salud") == "ganar_musculo" %}selected{% endif %}>Ganar músculo</option>
+                            <option value="mejorar_salud" {% if request.form.get("objetivo_salud") == "mejorar_salud" %}selected{% endif %}>Mejorar salud</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Meta semanal</label>
+                        <select class="form-select rounded-pill" name="meta_semanal" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona tu meta</option>
+                            <option value="perder_0.5kg" {% if request.form.get("meta_semanal") == "perder_0.5kg" %}selected{% endif %}>Perder 0.5 kg</option>
+                            <option value="perder_1kg" {% if request.form.get("meta_semanal") == "perder_1kg" %}selected{% endif %}>Perder 1 kg</option>
+                            <option value="mantener" {% if request.form.get("meta_semanal") == "mantener" %}selected{% endif %}>Mantener</option>
+                            <option value="ganar_0.5kg" {% if request.form.get("meta_semanal") == "ganar_0.5kg" %}selected{% endif %}>Ganar 0.5 kg</option>
+                            <option value="ganar_1kg" {% if request.form.get("meta_semanal") == "ganar_1kg" %}selected{% endif %}>Ganar 1 kg</option>
+                        </select>
+                    </div>
+
+                    <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Guardar Información</button>
+                    <hr>
+                </form>
             </div>
         </div>
-    </div>
     {% else %}
-    <p class="text-center" style="font-family: 'Delius', system-ui; font-size: 18px;">
-        Inicia sesión para ver tu perfil y objetivos personalizados.
-    </p>
+        <p class="text-center" style="font-family: 'Delius', system-ui; font-size: 18px;">
+            Por favor, inicia sesión para actualizar tu información de salud.
+        </p>
     {% endif %}
     
     <div class="row mt-5 g-4">
-        <div class="col-md-8">
-            <h2 style="font-family: 'Leckerli One', system-ui; font-size: 24px;">Herramientas de Salud</h2>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;">
-                Calcula tu IMC, TMB, y otros indicadores para alcanzar tus metas de salud.
-            </p>
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <img src="https://www.shutterstock.com/image-vector/personalized-nutrition-mindful-healthy-diet-260nw-2361097011.jpg" class="card-img-top" alt="Dieta personalizada">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-family: 'Leckerli One', system-ui; font-size: 20px;">Herramientas de Salud</h5>
+                    <p class="card-text" style="font-family: 'Delius', system-ui; font-size: 16px;">
+                        Calcula tu IMC, TMB y otros indicadores para alcanzar tus metas de salud.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <p class="text-center mt-5" style="font-family: 'Delius', system-ui; font-size: 18px;">
-        Esta aplicación es elaborada por: Karla Michelle Andres Cruz y Jaime Alberto Espinoza Martinez
-    </p>
 </div>
 {% endblock %}

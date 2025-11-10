@@ -1,10 +1,10 @@
 {% extends "index.html" %}
-{% block content %}
 
+{% block content %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form id="registrationForm" method="post" action="/registrame"
+                <form id="registrationForm" method="post" action="/registrame" enctype="multipart/form-data"
                     class="rounded p-4 mt-5 shadow-lg p-3 mb-5 bg-body-tertiary" style="background-color: #ffffff;">
                     <p style="font-family: 'Leckerli One', system-ui; font-size: 40px;" class="text-center">Crear Cuenta</p>
                     <p style="font-family: 'Delius', system-ui; font-size: 18px;" class="text-center">Comienza tu viaje hacia una vida más saludable</p>
@@ -25,13 +25,13 @@
                     </div>
 
                     <div class="row">
-                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Informacion Personal</h1>
+                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Información Personal</h1>
                         <div class="col-6 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required
                                 minlength="3" maxlength="100" value="{{ request.form.get('nombre','') }}">
                         </div>
                         <div class="col-6 mb-3">
-                            <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="apellido" placeholder="Apellido(s)" required
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="apellido" placeholder="Apellido(s)" required
                                 minlength="3" maxlength="100" value="{{ request.form.get('apellido','') }}">
                         </div>
                         
@@ -50,30 +50,37 @@
                     </div>
                     <hr>
 
-                <div class="mb-3 row">
-                    <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Datos Físicos</h1>
-                    <div class="col">
-                        <input  style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="edad" placeholder="Edad" required
-                            value="{{ request.form.get('edad','') }}">
+                    <div class="mb-3 row">
+                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Datos Físicos</h1>
+                        <div class="col">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="edad" placeholder="Edad" required
+                                value="{{ request.form.get('edad','') }}">
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" name="peso" placeholder="Peso (kg)" value="{{ request.form.get('peso','') }}">
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" class="form-control" name="altura" placeholder="Altura (cm)" value="{{ request.form.get('altura','') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="genero" class="form-label">Género</label>
+                            <select class="form-select rounded-pill" id="genero" name="genero" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="masculino">Hombre</option>
+                                <option value="femenino">Mujer</option>
+                                <option value="otro">Otro</option>
+                                <option value="prefinodecir">Prefiero no decirlo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="telefono" placeholder="Teléfono" required
+                                value="{{ request.form.get('telefono','') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="foto" class="form-label">Foto de perfil</label>
+                            <input type="file" class="form-control" name="foto" accept="image/*">
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="number" step="0.01" class="form-control" name="peso" placeholder="Peso (kg)" value="{{ request.form.get('peso','') }}">
-                    </div>
-                    <div class="col">
-                        <input type="number" step="0.01" class="form-control" name="altura" placeholder="Altura (cm)" value="{{ request.form.get('altura','') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="genero" class="form-label">Género</label>
-                        <select class="form-select rounded-pill" id="genero" name="genero" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona una opción</option>
-                            <option value="masculino">Hombre</option>
-                            <option value="femenino">Mujer</option>
-                            <option value="otro">Otro</option>
-                            <option value="prefinodecir">Prefiero no decirlo</option>
-                        </select>
-                    </div>
-                </div>
-                
 
                     <div class="mb-3 row">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Fecha de nacimiento</label>
@@ -81,8 +88,7 @@
                             <select class="form-select rounded-pill" name="dia" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Día</option>
                                 {% for dia in dias %}
-                                <option value="{{ dia }}" {% if request.form.get("dia")==dia %} selected {% endif %}>{{
-                                    dia }}</option>
+                                <option value="{{ dia }}" {% if request.form.get("dia")==dia %} selected {% endif %}>{{ dia }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -90,8 +96,7 @@
                             <select class="form-select rounded-pill" name="mes" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Mes</option>
                                 {% for mes in meses %}
-                                <option value="{{ mes }}" {% if request.form.get("mes")==mes %} selected {% endif %}>{{
-                                    mes }}</option>
+                                <option value="{{ mes }}" {% if request.form.get("mes")==mes %} selected {% endif %}>{{ mes }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -99,8 +104,7 @@
                             <select class="form-select rounded-pill" name="año" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                                 <option value="">Año</option>
                                 {% for año in años %}
-                                <option value="{{ año }}" {% if request.form.get("año")==año %} selected {% endif %}>{{
-                                    año }}</option>
+                                <option value="{{ año }}" {% if request.form.get("año")==año %} selected {% endif %}>{{ año }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -120,50 +124,24 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="actividad" class="form-label"
-                            style="font-family: 'Leckerli One', system-ui; font-size: 20px;">
-                            Nivel de actividad física:
-                        </label>
-                        <select id="actividad" name="actividad" class="form-select rounded-pill"
-                            style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="" {% if not request.form.get("actividad") %}selected{% endif %}>Selecciona
-                                una opción</option>
-                            <option value="1.2" {% if request.form.get("actividad")=="1.2" %}selected{% endif %}>
-                                Sedentario</option>
-                            <option value="1.375" {% if request.form.get("actividad")=="1.375" %}selected{% endif %}>
-                                Actividad ligera</option>
-                            <option value="1.55" {% if request.form.get("actividad")=="1.55" %}selected{% endif %}>
-                                Actividad moderada</option>
-                            <option value="1.725" {% if request.form.get("actividad")=="1.725" %}selected{% endif %}>
-                                Actividad alta</option>
+                        <label for="actividad" class="form-label" style="font-family: 'Leckerli One', system-ui; font-size: 20px;">Nivel de actividad física:</label>
+                        <select id="actividad" name="actividad" class="form-select rounded-pill" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="1.2">Sedentario</option>
+                            <option value="1.375">Actividad ligera</option>
+                            <option value="1.55">Actividad moderada</option>
+                            <option value="1.725">Actividad alta</option>
                         </select>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="actividad" class="form-label"
-                            style="font-family: 'Leckerli One', system-ui; font-size: 20px;">
-                            Nivel de Cocina:
-                        </label>
-                        <select class="form-select rounded-pill" name="nivCo" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona tu objetivo</option>
-                            <option value="basico">Básico</option>
-                            <option value="intermedio">Intermedio</option>
-                            <option value="avanzado">Avanzado</option>
-                            <option value="nivChef">Niveles de chef</option>
-                        </select>
-                    </div>
-                    
 
                     <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Registrarme</button>
                     <hr>
 
                     <p class="text-center">
-                        <a style="font-family: 'Delius', system-ui; font-size: 18px;" href="{{ url_for('sesion') }}" class="text-black text-decoration-none">¿Ya tienes una
-                            cuenta?</a>
+                        <a style="font-family: 'Delius', system-ui; font-size: 18px;" href="{{ url_for('sesion') }}" class="text-black text-decoration-none">¿Ya tienes una cuenta?</a>
                     </p>
                 </form>
             </div>
         </div>
     </div>
-
 {% endblock %}

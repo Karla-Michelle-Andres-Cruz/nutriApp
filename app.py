@@ -143,14 +143,19 @@ def guardar_info_salud():
 
 @app.route('/calculadoras', methods=['GET', 'POST'])
 def calculadoras():
+    imc_resultado = None
+    tmb_resultado = None
+    gct_resultado = None
+    peso_ideal_resultado = None
+    macronutrientes_resultado = None
+
     if request.method == 'POST':
-        
         if 'calcular_imc' in request.form:
             peso = float(request.form['peso_imc'])
             altura = float(request.form['altura_imc'])
             imc = peso / (altura ** 2)
             imc_resultado = f"Tu IMC es: {imc:.2f}"
-        
+
         if 'calcular_tmb' in request.form:
             edad = int(request.form['edad_tmb'])
             peso = float(request.form['peso_tmb'])
@@ -191,14 +196,13 @@ def calculadoras():
             grasas = gct * 0.30 / 9
             macronutrientes_resultado = f"Proteínas: {proteinas:.2f} g, Carbohidratos: {carbohidratos:.2f} g, Grasas: {grasas:.2f} g"
 
-        return render_template("calculadoras.html", 
-                                imc_resultado=imc_resultado,
-                                tmb_resultado=tmb_resultado,
-                                gct_resultado=gct_resultado,
-                                peso_ideal_resultado=peso_ideal_resultado,
-                                macronutrientes_resultado=macronutrientes_resultado)
+    return render_template("calculadoras.html", 
+                            imc_resultado=imc_resultado,
+                            tmb_resultado=tmb_resultado,
+                            gct_resultado=gct_resultado,
+                            peso_ideal_resultado=peso_ideal_resultado,
+                            macronutrientes_resultado=macronutrientes_resultado)
 
-    return render_template("calculadoras.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

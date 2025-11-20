@@ -8,11 +8,14 @@ usuarioR = {}
 
 @app.route('/')
 def base():
-    return render_template("inicio.html")
+    usuario = session.get("usuario_email")
+    return render_template("inicio.html", usuario=usuario)
 
 @app.route('/ini')
 def inicio():
-    return render_template("inicio.html")
+    usuario = session.get("usuario_email")
+    return render_template("inicio.html", usuario=usuario)
+
 
 @app.route('/perfil', methods=['GET'])
 def perfil():

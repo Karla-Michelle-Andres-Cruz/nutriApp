@@ -56,12 +56,6 @@
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="edad" placeholder="Edad" required
                                 value="{{ request.form.get('edad','') }}">
                         </div>
-                        <div class="col">
-                            <input type="number" step="0.01" class="form-control" name="peso" placeholder="Peso (kg)" value="{{ request.form.get('peso','') }}">
-                        </div>
-                        <div class="col">
-                            <input type="number" step="0.01" class="form-control" name="altura" placeholder="Altura (cm)" value="{{ request.form.get('altura','') }}">
-                        </div>
                         <div class="mb-3">
                             <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="genero" class="form-label">Género</label>
                             <select class="form-select rounded-pill" id="genero" name="genero" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
@@ -73,6 +67,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="foto" class="form-label">Numero de Telefono</label>
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="telefono" placeholder="Teléfono" required
                                 value="{{ request.form.get('telefono','') }}">
                         </div>
@@ -111,28 +106,6 @@
                     </div>
                     <hr>
 
-                    <div class="mb-3">
-                        <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Actividad y Objetivos</h1>
-                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Objetivo principal</label>
-                        <select class="form-select rounded-pill" name="objetivo" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona tu objetivo</option>
-                            <option value="bajar_peso">Bajar de peso</option>
-                            <option value="mantener_peso">Mantener peso</option>
-                            <option value="ganar_masa">Ganar masa muscular</option>
-                            <option value="mejorar_salud">Mejorar salud general</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="actividad" class="form-label" style="font-family: 'Leckerli One', system-ui; font-size: 20px;">Nivel de actividad física:</label>
-                        <select id="actividad" name="actividad" class="form-select rounded-pill" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona una opción</option>
-                            <option value="1.2">Sedentario</option>
-                            <option value="1.375">Actividad ligera</option>
-                            <option value="1.55">Actividad moderada</option>
-                            <option value="1.725">Actividad alta</option>
-                        </select>
-                    </div>
 
                     <button style="background-color:#707298; font-family: 'Leckerli One', system-ui; font-size: 25px;" type="submit" class="btn btn-light w-100">Registrarme</button>
                     <hr>

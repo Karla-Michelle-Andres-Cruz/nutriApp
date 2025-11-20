@@ -44,8 +44,6 @@ def registrame():
     email = request.form["email"]
     contraseña = request.form["contraseña"]
     conf_contraseña = request.form["confirmaContraseña"]
-    peso = float(request.form["peso"])
-    altura = float(request.form["altura"])
 
     if contraseña != conf_contraseña:
         flash("La contraseña no coincide", "error")
@@ -60,12 +58,7 @@ def registrame():
     'apellido': apellidos,
     'genero': genero,
     'email': email,
-    'peso': peso,
-    'altura': altura,
-    'contraseña': contraseña,
-    'objetivo': request.form.get('objetivo'),
-    'restricciones': request.form.get('restricciones'),
-    'experiencia': request.form.get('experiencia')
+    'contraseña': contraseña
 }
 
 

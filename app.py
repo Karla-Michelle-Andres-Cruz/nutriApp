@@ -178,6 +178,9 @@ def calculadoras():
 
         if 'calcular_peso_ideal' in request.form:
             altura = float(request.form['altura_ideal'])
+            if altura < 3:
+                altura *= 100
+
             sexo = request.form['sexo_ideal']
             if sexo == 'hombre':
                 peso_ideal = altura - 100 - ((altura - 150) / 4)

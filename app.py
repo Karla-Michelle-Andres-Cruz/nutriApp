@@ -3,7 +3,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TIAMIOSSOTT12'
-
+usuario2 = {}
 usuarioR = {}
 
 @app.route('/')
@@ -101,6 +101,8 @@ def cerrarsesion():
     flash("Has cerrado sesión exitosamente", "success")
     return redirect(url_for("inicio"))
 
+
+
 @app.route("/guardar_info_salud", methods=["POST"])
 def guardar_info_salud():
     if 'usuario_email' not in session:
@@ -108,7 +110,6 @@ def guardar_info_salud():
         return redirect(url_for('sesion'))
 
     email = session['usuario_email']
-    usuario = usuarioR.get(email, {})
 
     altura_cm = float(request.form['altura_cm'])
     peso_actual_kg = float(request.form['peso_actual_kg'])
@@ -116,12 +117,12 @@ def guardar_info_salud():
     nivel_actividad = request.form['nivel_actividad']
     objetivo_salud = request.form['objetivo_salud']
     meta_semanal = request.form['meta_semanal']
-    condiciones_medicas = request.form['condiciones_medicas']
-    medicamentos = request.form['medicamentos']
-    alergias_alimentarias = request.form['alergias_alimentarias']
+    condiciones_medicas = request.form.get('condiciones_medicas', '')
+    medicamentos = request.form.get('medicamentos', '')
+    alergias_alimentarias = request.form.get('alergias_alimentarias', '')
     preferencias_alimenticias = request.form.getlist('preferencias_alimenticias')
 
-    usuarioR[email] = {
+    usuario2[email] = {
         'altura_cm': altura_cm,
         'peso_actual_kg': peso_actual_kg,
         'peso_objetivo_kg': peso_objetivo_kg,
@@ -136,6 +137,7 @@ def guardar_info_salud():
 
     flash("Información de salud actualizada con éxito", "success")
     return redirect(url_for('perfil'))
+
 
 @app.route('/calculadoras', methods=['GET', 'POST'])
 def calculadoras():

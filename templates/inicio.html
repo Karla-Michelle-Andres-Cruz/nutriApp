@@ -33,16 +33,16 @@
                         <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Información Física</h1>
                         <div class="col-6 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="altura_cm" placeholder="Altura (cm)" required
-                                value="{{ request.form.get('altura_cm','') }}">
+                                value="{{ request.form.get('altura_cm','') }}" step="0.01">
                         </div>
                         <div class="col-6 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="peso_actual_kg" placeholder="Peso actual (kg)" required
-                                value="{{ request.form.get('peso_actual_kg','') }}">
+                                value="{{ request.form.get('peso_actual_kg','') }}" step="0.01">
                         </div>
                         
                         <div class="col-6 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="number" class="form-control" name="peso_objetivo_kg" placeholder="Peso objetivo (kg)" required
-                                value="{{ request.form.get('peso_objetivo_kg','') }}">
+                                value="{{ request.form.get('peso_objetivo_kg','') }}" step="0.01">
                         </div>
                     </div>
 
@@ -84,16 +84,16 @@
                     </div>
 
                         <div class="mb-3">
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="peso_objetivo_kg" placeholder="Condiciones medicas" required
-                                value="{{ request.form.get('peso_objetivo_kg','') }}">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="condiciones_medicas" placeholder="Condiciones medicas" required
+                                value="{{ request.form.get('condiciones_medicas','') }}">
                         </div>
                         <div class="mb-3">
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="peso_objetivo_kg" placeholder="Medicamentos" required
-                                value="{{ request.form.get('peso_objetivo_kg','') }}">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="medicamentos" placeholder="Medicamentos" required
+                                value="{{ request.form.get('medicamentos','') }}">
                         </div>
                         <div class="mb-3">
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="peso_objetivo_kg" placeholder="Alergias" required
-                                value="{{ request.form.get('peso_objetivo_kg','') }}">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="alergias_alimentarias" placeholder="Alergias" required
+                                value="{{ request.form.get('alergias_alimentarias','') }}">
                         </div>
                         <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Preferencias alimenticias:</label>

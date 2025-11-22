@@ -1,75 +1,23 @@
 {% extends "index.html" %}
 {% block content %}
 
-  <div class="container mt-5">
-    <div class="row">
-    <div class="col-md-8 col-lg-6">
-    <div class="card shadow-lg p-4" style="border-radius: 20px;">
-      <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Perfil del Usuario:</h2>
-      <hr>
+<div class="container mt-5">
+  <div class="row">
 
-      {% if usuario %}
-      <div class="row">
-        <div class="col-md-6">
-          <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Información Personal</h5>
-          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Apellido:</strong> {{ usuario.apellido }}</p>
-          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Género:</strong> {{ usuario.genero }}</p>
-          <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Correo:</strong> {{ usuario.email }}</p>
-        </div>
-
-      </div>
-      {% else %}
-      <div class="alert alert-warning text-center">
-        No se encontró información del usuario.
-      </div>
-      {% endif %}
-
-      <div class="text-center mt-4">
-        <a style="font-family: 'Leckerli One', cursive;" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
-      </div>
-    </div>
-    </div>
-  
-
-<!-- salto para no confundirme -->
-
+    <!-- tarjeta perfil usuario -->
     <div class="col-md-8 col-lg-6">
       <div class="card shadow-lg p-4" style="border-radius: 20px;">
-        <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Usuario:</h2>
+        <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Perfil del Usuario:</h2>
         <hr>
-  
+
         {% if usuario %}
         <div class="row">
-          <div class="col-md-6">
-            <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Información del Usuario:</h5>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Altura:</strong> {{ usuario.altura_cm }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Peso Actual:</strong> {{ usuario.apellido }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Peso Objetivo:</strong> {{ usuario.genero }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nivel de actividad:</strong> {{ usuario.email }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Objetivo de salud:</strong> {{ usuario.peso }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Meta semanal:</strong> {{ usuario.altura }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Condiciones medicas:</strong> {{ usuario.altura }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Medicamentos:</strong> {{ usuario.altura }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Alergias alimentarias:</strong> {{ usuario.altura }}</p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Preferencias alimenticias:</strong> {{ usuario.altura }}</p>
-          </div>
-  
-          <div class="col-md-6">
-            <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Datos de Salud y Preferencias</h5>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Objetivo:</strong>
-              {% if usuario.objetivo == 'bajar_peso' %}Bajar de peso{%
-              elif usuario.objetivo == 'mantener_peso' %}Mantener peso{%
-              elif usuario.objetivo == 'ganar_masa' %}Ganar masa muscular{%
-              elif usuario.objetivo == 'mejorar_salud' %}Mejorar salud general{%
-              else %}No especificado{% endif %}
-            </p>
-            <p style="font-family: 'Delius', system-ui; font-size: 18px;"><strong>Nivel de experiencia al cocinar:</strong>
-              {% if usuario.experiencia == 'principiante' %}Principiante{%
-              elif usuario.experiencia == 'intermedio' %}Intermedio{%
-              elif usuario.experiencia == 'avanzado' %}Avanzado{%
-              else %}No especificado{% endif %}
-            </p>
+          <div class="col-md-12">
+            <h5 style="font-family: 'Leckerli One', cursive;" class="fw-bold text-secondary">Información Personal</h5>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Género:</strong> {{ usuario.genero }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Correo:</strong> {{ usuario.email }}</p>
           </div>
         </div>
         {% else %}
@@ -77,13 +25,57 @@
           No se encontró información del usuario.
         </div>
         {% endif %}
-  
+
         <div class="text-center mt-4">
-          <a style="font-family: 'Leckerli One', cursive;" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
+          <a style="font-family: 'Leckerli One';" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
         </div>
       </div>
+    </div>
+
+    <!-- tarjeta datos de salud-->
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg p-4" style="border-radius: 20px;">
+        <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">Datos de Salud</h2>
+        <hr>
+
+        {% if salud %}
+        <div class="row">
+          <div class="col-md-12">
+            <h5 style="font-family: 'Leckerli One';" class="fw-bold text-secondary">Información Registrada</h5>
+
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Altura:</strong> {{ salud.altura_cm }} cm</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Peso Actual:</strong> {{ salud.peso_actual_kg }} kg</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Peso Objetivo:</strong> {{ salud.peso_objetivo_kg }} kg</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Nivel de actividad:</strong> {{ salud.nivel_actividad }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Objetivo de salud:</strong> {{ salud.objetivo_salud }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Meta semanal:</strong> {{ salud.meta_semanal }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Condiciones médicas:</strong> {{ salud.condiciones_medicas }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Medicamentos:</strong> {{ salud.medicamentos }}</p>
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Alergias alimentarias:</strong> {{ salud.alergias_alimentarias }}</p>
+
+            <p style="font-family: 'Delius'; font-size: 18px;"><strong>Preferencias alimenticias:</strong>
+              {% if salud.preA %}
+                {{ salud.preA | join(', ') }}
+              {% else %}
+                Ninguna
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center">
+          Aún no has registrado tu información de salud.
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+          <a style="font-family: 'Leckerli One';" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
+        </div>
+
       </div>
-    
+    </div>
+
   </div>
+</div>
 
 {% endblock %}

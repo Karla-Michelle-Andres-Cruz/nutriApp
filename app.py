@@ -3,8 +3,10 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TIAMIOSSOTT12'
-usuario2 = {}
-usuarioR = {}
+
+# bases de datos /(diccionarios)
+usuario2 = {} # usuarios registrados
+usuarioR = {} # info de salud rInicio
 
 @app.route('/')
 def base():
@@ -16,16 +18,21 @@ def inicio():
     usuario = session.get("usuario_email")
     return render_template("inicio.html", usuario=usuario)
 
-
+# si no hay sesion te devuelve al login
 @app.route('/perfil', methods=['GET'])
 def perfil():
     if 'usuario_email' not in session:
         flash("Inicia sesión para ver tu perfil", "error")
         return redirect(url_for('sesion'))
 
+
+# obtiene datos de salud y registro
     email = session['usuario_email']
     usuario = usuarioR.get(email, {})
-    return render_template('perfilUsuarios.html', usuario=usuario)
+    salud = usuario2.get(email, {}) 
+
+    return render_template('perfilUsuarios.html', usuario=usuario, salud=salud) #envia los datos al html de perfil u
+
 
 @app.route("/registro")
 def registro():
@@ -53,6 +60,7 @@ def registrame():
         flash("Ese correo ya está registrado", "error")
         return redirect(url_for("registro"))
 
+#guarda la info en el diccionario
     usuarioR[email] = {
     'nombre': nombre,
     'apellido': apellidos,
@@ -73,6 +81,7 @@ def sesion():
 
 @app.route("/validalogin", methods=['POST'])
 def validaLogin():
+    #Toma datos de
     email = request.form.get('email', '').strip()
     contraseña = request.form.get('contraseña', '')
 
@@ -101,7 +110,9 @@ def cerrarsesion():
     flash("Has cerrado sesión exitosamente", "success")
     return redirect(url_for("inicio"))
 
-
+@app.route("/formSalud")
+def formSalud():
+    return render_template("datosSalud.html")
 
 @app.route("/guardar_info_salud", methods=["POST"])
 def guardar_info_salud():
@@ -120,7 +131,7 @@ def guardar_info_salud():
     condiciones_medicas = request.form.get('condiciones_medicas', '')
     medicamentos = request.form.get('medicamentos', '')
     alergias_alimentarias = request.form.get('alergias_alimentarias', '')
-    preferencias_alimenticias = request.form.getlist('preferencias_alimenticias')
+    preA = request.form.getlist('preA')
 
     usuario2[email] = {
         'altura_cm': altura_cm,
@@ -132,7 +143,7 @@ def guardar_info_salud():
         'condiciones_medicas': condiciones_medicas,
         'medicamentos': medicamentos,
         'alergias_alimentarias': alergias_alimentarias,
-        'preferencias_alimenticias': preferencias_alimenticias
+        'preA': preA
     }
 
     flash("Información de salud actualizada con éxito", "success")

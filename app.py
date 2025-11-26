@@ -228,6 +228,11 @@ def calculadoras():
                             gct_resultado=gct_resultado,
                             peso_ideal_resultado=peso_ideal_resultado,
                             macronutrientes_resultado=macronutrientes_resultado)
+    
+    
+@app.route('/sabermas')
+def sabermas():
+    return render_template("sabermas.html")
 
 
 if __name__ == "__main__":

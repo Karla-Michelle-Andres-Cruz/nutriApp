@@ -36,24 +36,28 @@
         <hr>
 
         {% if salud %}
-            <p><strong>Altura:</strong> {{ salud[2] }} cm</p>
-            <p><strong>Peso Actual:</strong> {{ salud[3] }} kg</p>
-            <p><strong>Peso Objetivo:</strong> {{ salud[4] }} kg</p>
-            <p><strong>Nivel de actividad:</strong> {{ salud[5] }}</p>
-            <p><strong>Objetivo de salud:</strong> {{ salud[6] }}</p>
-            <p><strong>Meta semanal:</strong> {{ salud[7] }}</p>
-            <p><strong>Condiciones médicas:</strong> {{ salud[8] }}</p>
-            <p><strong>Medicamentos:</strong> {{ salud[9] }}</p>
-            <p><strong>Alergias alimentarias:</strong> {{ salud[10] }}</p>
+          <p><strong>Altura:</strong> {{ salud[2] }} cm</p>
+          <p><strong>Peso Actual:</strong> {{ salud[3] }} kg</p>
+          <p><strong>Peso Objetivo:</strong> {{ salud[4] }} kg</p>
+          <p><strong>Nivel de actividad:</strong> {{ salud[5] }}</p>
+          <p><strong>Objetivo de salud:</strong> {{ salud[6] }}</p>
+          <p><strong>Meta semanal:</strong> {{ salud[7] }}</p>
+          <p><strong>Condiciones médicas:</strong> {{ salud[8] }}</p>
+          <p><strong>Medicamentos:</strong> {{ salud[9] }}</p>
+          <p><strong>Alergias alimentarias:</strong> {{ salud[10] }}</p>
 
-            <p><strong>Preferencias alimenticias:</strong></p>
-            <ul>
-                {% for p in salud[11].split(',') %}
-                    {% if p %}
-                        <li>{{ p }}</li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+          <p><strong>Preferencias alimenticias:</strong></p>
+          <ul>
+            {% if salud[11] %}
+              {% for p in salud[11].split(',') %}
+                {% if p %}
+                  <li>{{ p }}</li>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <li>No especificadas</li>
+            {% endif %}
+          </ul>
         {% else %}
             <div class="alert alert-warning text-center">
                 Aún no has registrado tus datos de salud.
@@ -62,7 +66,7 @@
 
 
         <div class="text-center mt-4">
-          <a style="font-family: 'Leckerli One';" href="{{ url_for('guardar_info_salud') }}" class="btn btn-outline-secondary">Actualizar datos</a>
+          <a style="font-family: 'Leckerli One';" href="{{ url_for('formSalud') }}" class="btn btn-outline-secondary">Actualizar datos</a>
         </div>
 
       </div>

@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import requests
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TIAMIOSSOTT12'
@@ -14,6 +16,12 @@ app.config['MYSQL_DB'] = 'usuarios'
 
 
 mysql = MySQL(app)
+
+#declaracion de la API
+API_BASE = "https://api.nal.usda.gov/fdc/v1/"
+API_KEY = "QweiYpuEmJTfQlcfZLdquUSeiCqxe7sGaLQo2OaJ"
+
+
 
 def email_existe(email):
     try:
@@ -40,18 +48,23 @@ def obtener_usuario_por_email(email):
 
 
 # ================================================
-#               RUTAS PRINCIPALES
+#               Rutas Principales
 # ================================================
 
 @app.route('/')
+def base():
+    usuario = session.get("usuario_email")
+    return render_template("inicio.html", usuario=usuario)
+
 @app.route('/ini')
 def inicio():
     usuario = session.get("usuario_email")
     return render_template("inicio.html", usuario=usuario)
 
 
+
 # ================================================
-#               PERFIL DE USUARIO
+#               Perfil de ususario
 # ================================================
 
 @app.route('/perfil')
@@ -63,11 +76,11 @@ def perfil():
     usuario_id = session['usuario_id']
     cur = mysql.connection.cursor()
 
-    # Usuario como tupla
+    # Usuario
     cur.execute("SELECT * FROM usuarios WHERE id=%s", (usuario_id,))
     usuario = cur.fetchone()
 
-    # Salud como tupla
+    # Salud
     cur.execute("SELECT * FROM perfiles_usuario WHERE usuario_id=%s", (usuario_id,))
     salud = cur.fetchone()
 
@@ -80,9 +93,11 @@ def perfil():
 
 
 # ================================================
-#               REGISTRO DE USUARIOS
+#               Registro usuarios
 # ================================================
 
+
+#manda la fecha a el formulario registro 
 @app.route("/registro")
 def registro():
     dias = list(range(1, 32))
@@ -117,7 +132,7 @@ def registrame():
         # Hashear la contraseña
         hashed_password = generate_password_hash(password)
 
-        # INSERT corregido
+        #inserta los datos a la base de datos 'usuario'
         cursor.execute(
             'INSERT INTO usuarios (email, password, nombre, paterno, materno, fecha_nacimiento, genero, telefono) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
             (email, hashed_password, nombre, paterno, materno, fecha_nacimiento, genero, telefono)
@@ -136,7 +151,7 @@ def registrame():
 
 
 # ================================================
-#                   LOGIN
+#                   inicio sesion
 # ================================================
 
 @app.route("/iniciosesion")
@@ -163,31 +178,33 @@ def validaLogin():
 
         if usuario:
 
-            # usuario[2] == email, usuario[3] == password
+            # usuario[1] = email, usuario[2] = password, ususario[0] = id
             if check_password_hash(usuario[2], password):
                 session['usuario_id'] = usuario[0]
                 session['usuario_nombre'] = usuario[3]
                 session['usuario_email'] = usuario[1]
 
+                #mensaje de bienvenida con el nombre del usuario
                 flash(f'¡Bienvenido {usuario[3]}!', 'success')
                 return redirect(url_for('inicio'))
             else:
                 flash('Contraseña incorrecta', 'danger')
-                return render_template('sesion.html')  # ← FALTABA ESTO
+                return render_template('sesion.html')
         else:
             flash('El correo no esta registrado', 'danger')
             return render_template('sesion.html')
 
 
 
+
 @app.route("/cerrarsesion")
 def cerrarsesion():
     session.clear()
-    flash('Has cerrado sesión correctamente', 'info')
-    return redirect(url_for('validaLogin'))
+    flash("Has cerrado sesión exitosamente", "success")
+    return redirect(url_for("inicio"))
 
 # ================================================
-#         FORMULARIO DE DATOS DE SALUD
+#         Formulario de datos de salud
 # ================================================
 
 @app.route("/formSalud")
@@ -197,10 +214,13 @@ def formSalud():
 
 @app.route("/guardar_info_salud", methods=["POST"])
 def guardar_info_salud():
+
+    #si no hay usuario no te dejara actualizar los datos de salud y/o guardarlos
     if 'usuario_email' not in session:
         flash("Por favor, inicia sesión para actualizar tu información", "error")
         return redirect(url_for('sesion'))
 
+    #toma los datos del formuario de salud y los guarda
     usuario_id = session['usuario_id']
     altura_cm = request.form['altura_cm']
     peso_actual_kg = request.form['peso_actual_kg']
@@ -211,41 +231,24 @@ def guardar_info_salud():
     condiciones_medicas = request.form.get('condiciones_medicas', '')
     medicamentos = request.form.get('medicamentos', '')
     alergias_alimentarias = request.form.get('alergias_alimentarias', '')
-    preferencias_sql = ",".join(request.form.getlist('preA'))
+    preferencias_alimentarias = request.form.get('preferencias_alimentarias', '')
 
     cur = mysql.connection.cursor()
 
+    #se sincroniza con la tabla 'usuario' usando la llave foranea 'usuario_id
     cur.execute("SELECT id FROM perfiles_usuario WHERE usuario_id=%s", (usuario_id,))
     existe = cur.fetchone()
 
+    #si exite ya un registro de datos de salud y el usuario vuelve a cambiar los datos se ejecuta un Update
     if existe:
-        cur.execute("""
-            UPDATE perfiles_usuario
-            SET altura_cm=%s, peso_actual_kg=%s, peso_objetivo_kg=%s,
-                nivel_actividad=%s, objetivo_salud=%s, meta_semanal=%s,
-                condiciones_medicas=%s, medicamentos=%s, alergias_alimentarias=%s,
-                preferencias_alimenticias=%s
-            WHERE usuario_id=%s
-        """, (
-            altura_cm, peso_actual_kg, peso_objetivo_kg,
-            nivel_actividad, objetivo_salud, meta_semanal,
-            condiciones_medicas, medicamentos, alergias_alimentarias,
-            preferencias_sql, usuario_id
-        ))
+        cur.execute('UPDATE perfiles_usuario SET altura_cm=%s, peso_actual_kg=%s, peso_objetivo_kg=%s, nivel_actividad=%s, objetivo_salud=%s, meta_semanal=%s, condiciones_medicas=%s, medicamentos=%s,  alergias_alimentarias=%s,preferencias_alimenticias=%s WHERE usuario_id=%s', 
+                    (altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal, condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimentarias, usuario_id)
+        )
+        #si no existe un regiestro previo entonces se inserta los datos del formulario de salud
     else:
-        cur.execute("""
-            INSERT INTO perfiles_usuario (
-                usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg,
-                nivel_actividad, objetivo_salud, meta_semanal,
-                condiciones_medicas, medicamentos, alergias_alimentarias,
-                preferencias_alimenticias
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (
-            usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg,
-            nivel_actividad, objetivo_salud, meta_semanal,
-            condiciones_medicas, medicamentos, alergias_alimentarias,
-            preferencias_sql
-        ))
+        cur.execute('INSERT INTO perfiles_usuario (usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal,condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimenticias) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
+                    (usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal, condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimentarias)
+        )
 
     mysql.connection.commit()
     cur.close()
@@ -255,66 +258,140 @@ def guardar_info_salud():
 
 
 # ================================================
-#         CALCULADORAS DE SALUD
+#         Calculadoras
 # ================================================
 
 @app.route('/calculadoras', methods=['GET', 'POST'])
 def calculadoras():
-    resultados = {}
+    imc_resultado = None
+    tmb_resultado = None
+    gct_resultado = None
+    peso_ideal_resultado = None
+    macronutrientes_resultado = None
 
     if request.method == 'POST':
-
         if 'calcular_imc' in request.form:
             peso = float(request.form['peso_imc'])
             altura = float(request.form['altura_imc'])
-            resultados["imc"] = f"Tu IMC es: {peso / (altura ** 2):.2f}"
+            imc = peso / (altura ** 2)
+            imc_resultado = f"Tu IMC es: {imc:.2f}"
 
         if 'calcular_tmb' in request.form:
             edad = int(request.form['edad_tmb'])
             peso = float(request.form['peso_tmb'])
             altura = float(request.form['altura_tmb'])
             sexo = request.form['sexo_tmb']
-            tmb = 10 * peso + 6.25 * altura - 5 * edad + (5 if sexo == 'hombre' else -161)
-            resultados["tmb"] = f"Tu TMB es: {tmb:.2f} kcal/día"
+            if sexo == 'hombre':
+                tmb = 10 * peso + 6.25 * altura - 5 * edad + 5
+            else:
+                tmb = 10 * peso + 6.25 * altura - 5 * edad - 161
+            tmb_resultado = f"Tu TMB es: {tmb:.2f} kcal/día"
 
         if 'calcular_gct' in request.form:
             tmb = float(request.form['tmb_gct'])
             actividad = request.form['actividad_gct']
-            factores = {'sedentario': 1.2, 'ligera': 1.375, 'moderada': 1.55, 'intensa': 1.725}
-            gct = tmb * factores.get(actividad, 1.2)
-            resultados["gct"] = f"Tu GCT es: {gct:.2f} kcal/día"
+            if actividad == 'sedentario':
+                gct = tmb * 1.2
+            elif actividad == 'ligera':
+                gct = tmb * 1.375
+            elif actividad == 'moderada':
+                gct = tmb * 1.55
+            elif actividad == 'intensa':
+                gct = tmb * 1.725
+            gct_resultado = f"Tu GCT es: {gct:.2f} kcal/día"
 
         if 'calcular_peso_ideal' in request.form:
             altura = float(request.form['altura_ideal'])
             if altura < 3:
                 altura *= 100
-            sexo = request.form['sexo_ideal']
-            peso_ideal = altura - 100 - ((altura - 150) / (4 if sexo == 'hombre' else 2))
-            resultados["peso_ideal"] = f"Tu peso ideal es: {peso_ideal:.2f} kg"
+
+            sexo = request.form['peso_ideal']
+            if sexo == 'hombre':
+                peso_ideal = altura - 100 - ((altura - 150) / 4)
+            else:
+                peso_ideal = altura - 100 - ((altura - 150) / 2)
+            peso_ideal_resultado = f"Tu peso ideal es: {peso_ideal:.2f} kg"
 
         if 'calcular_macronutrientes' in request.form:
             gct = float(request.form['gct_macronutrientes'])
-            resultados["macros"] = (
-                f"Proteínas: {gct * 0.25 / 4:.2f} g, "
-                f"Carbohidratos: {gct * 0.45 / 4:.2f} g, "
-                f"Grasas: {gct * 0.30 / 9:.2f} g"
-            )
+            proteinas = gct * 0.25 / 4
+            carbohidratos = gct * 0.45 / 4
+            grasas = gct * 0.30 / 9
+            macronutrientes_resultado = f"Proteínas: {proteinas:.2f} g, Carbohidratos: {carbohidratos:.2f} g, Grasas: {grasas:.2f} g"
 
-    return render_template("calculadoras.html", **resultados)
+    return render_template("calculadoras.html", 
+                            imc_resultado=imc_resultado,
+                            tmb_resultado=tmb_resultado,
+                            gct_resultado=gct_resultado,
+                            peso_ideal_resultado=peso_ideal_resultado,
+                            macronutrientes_resultado=macronutrientes_resultado)
 
 
 # ================================================
-#                 OTRAS RUTAS
+#                 Otras rutas
 # ================================================
 
 @app.route('/sabermas')
 def sabermas():
     return render_template("sabermas.html")
 
+# ================================================
+#               Busacador de alimentos
+# ================================================
 
-# ================================================
-#                 EJECUCIÓN
-# ================================================
+@app.route("/buscar_alimentos")
+def buscar_alimentos():
+    return render_template("recetas.html")
+
+
+@app.route("/search", methods=["POST"])
+def buscar_alimento():
+    comNombre = request.form.get("food_name", "").strip().lower()
+
+    if not comNombre:
+        flash("Por favor, ingresa el nombre de un alimento.", "error")
+        return redirect(url_for("buscar_alimentos"))
+
+    try:
+        buscaUrl = f"{API_BASE}foods/search?query={comNombre}&api_key={API_KEY}"
+        busResponse = requests.get(buscaUrl)
+
+        if busResponse.status_code != 200:
+            flash("No se pudo conectar con la API del USDA.", "error")
+            return redirect(url_for("buscar_alimentos"))
+
+        busData = busResponse.json()
+
+        if "foods" not in busData or len(busData["foods"]) == 0:
+            flash(f'No se encontraron resultados para "{comNombre}".', "error")
+            return redirect(url_for("buscar_alimentos"))
+
+        comida = busData["foods"][0]
+        fdc_id = comida["fdcId"]
+
+        detUrl = f"{API_BASE}food/{fdc_id}?api_key={API_KEY}"
+        detResponse = requests.get(detUrl)
+        detData = detResponse.json()
+
+        food_info = {
+            "description": detData.get("description", "Sin descripción"),
+            "fdcId": detData.get("fdcId"),
+            "nutrientes": [
+                {
+                    "name": n.get("nutrientName", ""),
+                    "amount": n.get("value"),
+                    "unit": n.get("unitName", "")
+                }
+                for n in detData.get("foodNutrients", [])
+            ]
+        }
+
+        return render_template("resultado.html", food=food_info)
+
+    except requests.exceptions.RequestException:
+        flash("Error al conectar con la API del USDA. Intenta de nuevo más tarde.", "error")
+        return redirect(url_for("buscar_alimentos"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

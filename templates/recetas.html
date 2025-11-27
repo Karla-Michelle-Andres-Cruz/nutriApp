@@ -1,25 +1,24 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">
-        Bienvenido a ÑamApp
-    </h1>
+<div class="container py-5">
+    <h1 class="text-center mb-4">Buscador de alimentos (USDA)</h1>
 
-    
-    <div class="row mt-5 g-4">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow h-100">
-                <img src="https://www.shutterstock.com/image-vector/personalized-nutrition-mindful-healthy-diet-260nw-2361097011.jpg" class="card-img-top" alt="Dieta personalizada">
-                <div class="card-body">
-                    <h5 class="card-title" style="font-family: 'Leckerli One', system-ui; font-size: 20px;">Herramientas de Salud</h5>
-                    <p class="card-text" style="font-family: 'Delius', system-ui; font-size: 16px;">
-                        Calcula tu IMC, TMB y otros indicadores para alcanzar tus metas de salud.
-                    </p>
-                </div>
-            </div>
+    <form method="POST" action="{{ url_for('buscar_alimento') }}" class="mx-auto" style="max-width: 400px;">
+        <div class="input-group mb-3">
+            <input type="text" name="food_name" class="form-control" placeholder="Ejemplo: Apple" required>
+            <button class="btn btn-primary" type="submit">Buscar</button>
         </div>
-    </div>
+    </form>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert alert-danger mt-3">
+                {% for category, message in messages %}
+                    <p class="mb-0">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

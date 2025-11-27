@@ -1,25 +1,90 @@
 {% extends "index.html" %}
-
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">
-        Bienvenido a ÑamApp
-    </h1>
 
-    
-    <div class="row mt-5 g-4">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow h-100">
-                <img src="https://www.shutterstock.com/image-vector/personalized-nutrition-mindful-healthy-diet-260nw-2361097011.jpg" class="card-img-top" alt="Dieta personalizada">
-                <div class="card-body">
-                    <h5 class="card-title" style="font-family: 'Leckerli One', system-ui; font-size: 20px;">Herramientas de Salud</h5>
-                    <p class="card-text" style="font-family: 'Delius', system-ui; font-size: 16px;">
-                        Calcula tu IMC, TMB y otros indicadores para alcanzar tus metas de salud.
-                    </p>
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="bg-white rounded-4 shadow-lg p-5 mb-5">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">
+                    🍽️ Bienvenido a ÑamApp
+                </h1>
+                <p class="lead mb-4 fs-4" style="color:#707298;">
+                    Tu compañero perfecto para una vida más saludable y equilibrada
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                    <span class="badge rounded-pill px-4 py-2 fs-6" style="background-color:#707298;">
+                        <i class="bi bi-heart-pulse"></i> Salud Integral
+                    </span>
+                    <span class="badge rounded-pill px-4 py-2 fs-6" style="background-color:#707298;">
+                        <i class="bi bi-graph-up"></i> Resultados Reales
+                    </span>
                 </div>
             </div>
+
+            <!-- Herramientas Principales -->
+            <div class="row g-4 mt-4 mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold mb-4" style="font-family: 'Leckerli One', system-ui; color:#707298;">
+                        <i class="bi bi-tools"></i> Herramientas de Salud
+                    </h2>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                                style="width: 80px; height: 80px; background-color: rgba(112, 114, 152, 0.1);">
+                                <i class="bi bi-calculator fs-1" style="color:#707298;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">Calculadoras</h5>
+                            <p class="card-text text-secondary mb-3">
+                                Calcula tu Índice de Masa Corporal y más, con nuestras calculadoras.
+                            </p>
+                            <div class="text-center mt-4">
+                                <a style="font-family: 'Leckerli One';" href="{{ url_for('calculadoras') }}" class="btn btn-outline-secondary">Calcular</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                                style="width: 80px; height: 80px; background-color: rgba(112, 114, 152, 0.1);">
+                                <i class="bi bi-fire fs-1" style="color:#707298;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">Buscador de Alimentos</h5>
+                            <p class="card-text text-secondary mb-3">
+                                Busca los nutrientes de lo que comes en nuestro buscador.
+                            </p>
+                            <div class="text-center mt-4">
+                                <a style="font-family: 'Leckerli One';" href="{{ url_for('buscar_alimentos') }}" class="btn btn-outline-secondary">Buscar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                                style="width: 80px; height: 80px; background-color: rgba(112, 114, 152, 0.1);">
+                                <i class="bi bi-activity fs-1" style="color:#707298;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">Informacion</h5>
+                            <p class="card-text text-secondary mb-3">
+                                En nuestro apartado de "Saber más" encontraras mas informacion sobre temas nutricional.
+                            </p>
+                            <div class="text-center mt-4">
+                                <a style="font-family: 'Leckerli One';" href="{{ url_for('sabermas') }}" class="btn btn-outline-secondary">Más</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-</div>
 {% endblock %}

@@ -59,10 +59,10 @@
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Objetivo de salud</label>
                         <select class="form-select rounded-pill" name="objetivo_salud" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="">Selecciona tu objetivo</option>
-                            <option value="perder peso" >Perder peso</option>
-                            <option value="mantener peso" >Mantener peso</option>
-                            <option value="ganar musculo" >Ganar músculo</option>
-                            <option value="mejorar salud" >Mejorar salud</option>
+                            <option value="perder_peso" >Perder peso</option>
+                            <option value="mantener_peso" >Mantener peso</option>
+                            <option value="ganar_musculo" >Ganar músculo</option>
+                            <option value="mejorar_salud" >Mejorar salud</option>
                         </select>
                     </div>
 
@@ -70,11 +70,11 @@
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Meta semanal</label>
                         <select class="form-select rounded-pill" name="meta_semanal" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="">Selecciona tu meta</option>
-                            <option value="perder 0.5kg" {% if request.form.get("meta_semanal") == "perder_0.5kg" %}selected{% endif %}>Perder 0.5 kg</option>
-                            <option value="perder 1kg" {% if request.form.get("meta_semanal") == "perder_1kg" %}selected{% endif %}>Perder 1 kg</option>
+                            <option value="perder_0.5kg" {% if request.form.get("meta_semanal") == "perder_0.5kg" %}selected{% endif %}>Perder 0.5 kg</option>
+                            <option value="perder_1kg" {% if request.form.get("meta_semanal") == "perder_1kg" %}selected{% endif %}>Perder 1 kg</option>
                             <option value="mantener" {% if request.form.get("meta_semanal") == "mantener" %}selected{% endif %}>Mantener</option>
-                            <option value="ganar 0.5kg" {% if request.form.get("meta_semanal") == "ganar_0.5kg" %}selected{% endif %}>Ganar 0.5 kg</option>
-                            <option value="ganar 1kg" {% if request.form.get("meta_semanal") == "ganar_1kg" %}selected{% endif %}>Ganar 1 kg</option>
+                            <option value="ganar_0.5kg" {% if request.form.get("meta_semanal") == "ganar_0.5kg" %}selected{% endif %}>Ganar 0.5 kg</option>
+                            <option value="ganar_1kg" {% if request.form.get("meta_semanal") == "ganar_1kg" %}selected{% endif %}>Ganar 1 kg</option>
                         </select>
                     </div>
 
@@ -95,16 +95,15 @@
                         </div>
                         <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Preferencias alimenticias:</label>
-                        <select class="form-select rounded-pill" name="preferencias_alimenticias" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                            <option value="">Selecciona</option>
+                        <select class="form-select rounded-pill" name="preferencias_alimentarias" style="font-family: 'Delius', system-ui; font-size: 18px;" multiple>
                             <option value="vegetariano">Vegetariano</option>
                             <option value="vegano">Vegano</option>
-                            <option value="sin gruten">Sin gruten</option>
-                            <option value="sin lactosa">Sin lactosa</option>
-                            <option value="bajo carbohidratos">bajo carbohidratos</option>
-                            <option value="keto">keto</option>
-                            <option value="paleo" >Paleo</option>
-                            <option value="mediterraneo" >Mediterraneo</option>
+                            <option value="sin_gluten">Sin gluten</option>
+                            <option value="sin_lactosa">Sin lactosa</option>
+                            <option value="bajo_carbohidratos">Bajo carbohidratos</option>
+                            <option value="keto">Keto</option>
+                            <option value="paleo">Paleo</option>
+                            <option value="mediterraneo">Mediterráneo</option>
                         </select>
                     </div>
 

@@ -26,15 +26,20 @@
 
                     <div class="row">
                         <h1 style="font-family: 'Leckerli One', system-ui; font-size: 30px;" class="text-center">Información Personal</h1>
-                        <div class="col-6 mb-3">
+                        <div class="col-12 mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required
                                 minlength="3" maxlength="100" value="{{ request.form.get('nombre','') }}">
                         </div>
+                        <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="apellidos" class="form-label">Apellidos:</label>
                         <div class="col-6 mb-3">
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="apellido" placeholder="Apellido(s)" required
-                                minlength="3" maxlength="100" value="{{ request.form.get('apellido','') }}">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="paterno" placeholder="Paterno" required
+                                minlength="3" maxlength="100" value="{{ request.form.get('paterno','') }}">
                         </div>
-                        
+                        <div class="col-6 mb-3">
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="materno" placeholder="Materno" required
+                                minlength="3" maxlength="100" value="{{ request.form.get('materno','') }}">
+                        </div>
+                        <hr>
                         <div class="mb-3">
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="email" class="form-control" name="email" placeholder="Correo electrónico" required
                                 value="{{ request.form.get('email','') }}">
@@ -68,10 +73,6 @@
                             <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="foto" class="form-label">Numero de Telefono</label>
                             <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="telefono" placeholder="Teléfono" required
                                 value="{{ request.form.get('telefono','') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" for="foto" class="form-label">Foto de perfil</label>
-                            <input type="file" class="form-control" name="foto" accept="image/*">
                         </div>
                     </div>
 

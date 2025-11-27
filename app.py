@@ -10,11 +10,33 @@ app.config['SECRET_KEY'] = 'TIAMIOSSOTT12'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'ñamAppBD'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-app.config['MYSQL_CHARSET'] = 'utf8mb4'
+app.config['MYSQL_DB'] = 'usuarios'
+
 
 mysql = MySQL(app)
+
+def email_existe(email):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT id FROM usuarios WHERE email = %s', (email,))
+        return cursor.fetchone() is not None
+    except Exception as e:
+        print(f"Error verificando email: {e}")
+        return False
+
+
+def obtener_usuario_por_email(email):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM usuarios WHERE email = %s', (email,))
+        return cursor.fetchone()
+    except Exception as e:
+        print(f"error verificando usuario: {e}")
+        return None
+
+
+
+
 
 
 # ================================================
@@ -41,15 +63,20 @@ def perfil():
     usuario_id = session['usuario_id']
     cur = mysql.connection.cursor()
 
+    # Usuario como tupla
     cur.execute("SELECT * FROM usuarios WHERE id=%s", (usuario_id,))
     usuario = cur.fetchone()
 
+    # Salud como tupla
     cur.execute("SELECT * FROM perfiles_usuario WHERE usuario_id=%s", (usuario_id,))
     salud = cur.fetchone()
 
     cur.close()
 
     return render_template("perfilUsuarios.html", usuario=usuario, salud=salud)
+
+
+
 
 
 # ================================================
@@ -70,39 +97,42 @@ def registro():
 @app.route("/registrame", methods=["POST"])
 def registrame():
     nombre = request.form["nombre"]
-    apellidos = request.form["apellido"]
-    genero = request.form["genero"]
+    paterno = request.form["paterno"]
+    materno = request.form["materno"]
     email = request.form["email"]
-    contraseña = request.form["contraseña"]
-    conf_contraseña = request.form["confirmaContraseña"]
+    password = request.form["password"]
+    confirm = request.form["confirmaContraseña"]
     fecha_nacimiento = request.form.get("fecha_nacimiento")
+    genero = request.form.get("genero")
     telefono = request.form.get("telefono")
 
-    if contraseña != conf_contraseña:
-        flash("La contraseña no coincide", "error")
+    # Validar que coincidan las contraseñas
+    if password != confirm:
+        flash("Las contraseñas no coinciden", "danger")
         return redirect(url_for("registro"))
 
-    cur = mysql.connection.cursor()
+    try:
+        cursor = mysql.connection.cursor()
 
-    cur.execute("SELECT id FROM usuarios WHERE email=%s", (email,))
-    existe = cur.fetchone()
+        # Hashear la contraseña
+        hashed_password = generate_password_hash(password)
 
-    if existe:
-        flash("Ese correo ya está registrado", "error")
+        # INSERT corregido
+        cursor.execute(
+            'INSERT INTO usuarios (email, password, nombre, paterno, materno, fecha_nacimiento, genero, telefono) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
+            (email, hashed_password, nombre, paterno, materno, fecha_nacimiento, genero, telefono)
+        )
+
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("¡Registro exitoso!", "success")
+        return redirect(url_for("sesion"))
+
+    except Exception as e:
+        flash(f"Error al registrar usuario: {str(e)}", "danger")
         return redirect(url_for("registro"))
 
-    contraseña_hash = generate_password_hash(contraseña)
-
-    cur.execute("""
-        INSERT INTO usuarios (email, password, nombre, apellidos, fecha_nacimiento, genero, telefono)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (email, contraseña_hash, nombre, apellidos, fecha_nacimiento, genero, telefono))
-
-    mysql.connection.commit()
-    cur.close()
-
-    flash(f"¡Registro exitoso para {nombre}!", "success")
-    return redirect(url_for("sesion"))
 
 
 # ================================================
@@ -118,37 +148,43 @@ def sesion():
 
 @app.route("/validalogin", methods=['POST'])
 def validaLogin():
-    email = request.form.get('email', '').strip()
-    contraseña = request.form.get('contraseña', '')
+    if 'usuario_id' in session:
+        return redirect(url_for('inicio'))
+    
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
 
-    if not email or not contraseña:
-        flash('Por favor ingresa email y contraseña', 'error')
-        return redirect(url_for('sesion'))
+        if not email or not password:
+            flash('Por favor ingrese email y contraseña', 'danger')
+            return render_template('sesion.html')
+        
+        usuario = obtener_usuario_por_email(email)
 
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuarios WHERE email=%s", (email,))
-    usuario = cur.fetchone()
-    cur.close()
+        if usuario:
 
-    if usuario and check_password_hash(usuario['password'], contraseña):
-        session['usuario_email'] = usuario['email']
-        session['usuario_id'] = usuario['id']
-        session['usuario'] = usuario['nombre']
-        session['logueado'] = True
+            # usuario[2] == email, usuario[3] == password
+            if check_password_hash(usuario[2], password):
+                session['usuario_id'] = usuario[0]
+                session['usuario_nombre'] = usuario[3]
+                session['usuario_email'] = usuario[1]
 
-        flash(f"Bienvenido {usuario['nombre']}", "success")
-        return redirect(url_for("inicio"))
+                flash(f'¡Bienvenido {usuario[3]}!', 'success')
+                return redirect(url_for('inicio'))
+            else:
+                flash('Contraseña incorrecta', 'danger')
+                return render_template('sesion.html')  # ← FALTABA ESTO
+        else:
+            flash('El correo no esta registrado', 'danger')
+            return render_template('sesion.html')
 
-    flash("Correo o contraseña incorrectos", "error")
-    return redirect(url_for("sesion"))
 
 
 @app.route("/cerrarsesion")
 def cerrarsesion():
     session.clear()
-    flash("Has cerrado sesión exitosamente", "success")
-    return redirect(url_for("inicio"))
-
+    flash('Has cerrado sesión correctamente', 'info')
+    return redirect(url_for('validaLogin'))
 
 # ================================================
 #         FORMULARIO DE DATOS DE SALUD
@@ -166,7 +202,6 @@ def guardar_info_salud():
         return redirect(url_for('sesion'))
 
     usuario_id = session['usuario_id']
-
     altura_cm = request.form['altura_cm']
     peso_actual_kg = request.form['peso_actual_kg']
     peso_objetivo_kg = request.form['peso_objetivo_kg']

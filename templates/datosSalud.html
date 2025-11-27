@@ -47,11 +47,11 @@
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Nivel de actividad</label>
                         <select class="form-select rounded-pill" name="nivel_actividad" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="">Selecciona una opción</option>
-                            <option value="sedentario" {% if request.form.get("nivel_actividad") == "sedentario" %}selected{% endif %}>Sedentario</option>
-                            <option value="ligero" {% if request.form.get("nivel_actividad") == "ligero" %}selected{% endif %}>Ligero</option>
-                            <option value="moderado" {% if request.form.get("nivel_actividad") == "moderado" %}selected{% endif %}>Moderado</option>
-                            <option value="activo" {% if request.form.get("nivel_actividad") == "activo" %}selected{% endif %}>Activo</option>
-                            <option value="muy_activo" {% if request.form.get("nivel_actividad") == "muy_activo" %}selected{% endif %}>Muy activo</option>
+                            <option value="sedentario" >Sedentario</option>
+                            <option value="ligero" >Ligero</option>
+                            <option value="moderado" >Moderado</option>
+                            <option value="activo" >Activo</option>
+                            <option value="muy_activo" >Muy activo</option>
                         </select>
                     </div>
 
@@ -59,10 +59,10 @@
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Objetivo de salud</label>
                         <select class="form-select rounded-pill" name="objetivo_salud" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="">Selecciona tu objetivo</option>
-                            <option value="perder peso" {% if request.form.get("objetivo_salud") == "perder_peso" %}selected{% endif %}>Perder peso</option>
-                            <option value="mantener peso" {% if request.form.get("objetivo_salud") == "mantener_peso" %}selected{% endif %}>Mantener peso</option>
-                            <option value="ganar musculo" {% if request.form.get("objetivo_salud") == "ganar_musculo" %}selected{% endif %}>Ganar músculo</option>
-                            <option value="mejorar salud" {% if request.form.get("objetivo_salud") == "mejorar_salud" %}selected{% endif %}>Mejorar salud</option>
+                            <option value="perder peso" >Perder peso</option>
+                            <option value="mantener peso" >Mantener peso</option>
+                            <option value="ganar musculo" >Ganar músculo</option>
+                            <option value="mejorar salud" >Mejorar salud</option>
                         </select>
                     </div>
 
@@ -95,16 +95,16 @@
                         </div>
                         <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Preferencias alimenticias:</label>
-                        <select class="form-select rounded-pill" name="preA" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
+                        <select class="form-select rounded-pill" name="preferencias_alimenticias" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
                             <option value="">Selecciona</option>
-                            <option value="vegetariano" {% if request.form.get("preA") == "vegetariano" %}selected{% endif %}>Vegetariano</option>
-                            <option value="vegano" {% if request.form.get("preA") == "vegano" %}selected{% endif %}>Vegano</option>
-                            <option value="sin gruten" {% if request.form.get("preA") == "sin_gruten" %}selected{% endif %}>Sin gruten</option>
-                            <option value="sin lactosa" {% if request.form.get("preA") == "sin_lactosa" %}selected{% endif %}>Sin lactosa</option>
-                            <option value="bajo carbohidratos" {% if request.form.get("preA") == "bajo_carbohidratos" %}selected{% endif %}>bajo carbohidratos</option>
-                            <option value="keto" {% if request.form.get("preA") == "keto" %}selected{% endif %}>keto</option>
-                            <option value="paleo" {% if request.form.get("preA") == "paleo" %}selected{% endif %}>Paleo</option>
-                            <option value="mediterraneo" {% if request.form.get("preA") == "mediterraneo" %}selected{% endif %}>Mediterraneo</option>
+                            <option value="vegetariano">Vegetariano</option>
+                            <option value="vegano">Vegano</option>
+                            <option value="sin gruten">Sin gruten</option>
+                            <option value="sin lactosa">Sin lactosa</option>
+                            <option value="bajo carbohidratos">bajo carbohidratos</option>
+                            <option value="keto">keto</option>
+                            <option value="paleo" >Paleo</option>
+                            <option value="mediterraneo" >Mediterraneo</option>
                         </select>
                     </div>
 

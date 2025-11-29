@@ -78,30 +78,7 @@
 
                     <div class="mb-3 row">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Fecha de nacimiento</label>
-                        <div class="col">
-                            <select class="form-select rounded-pill" name="dia" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                                <option value="">Día</option>
-                                {% for dia in dias %}
-                                <option value="{{ dia }}" {% if request.form.get("dia")==dia %} selected {% endif %}>{{ dia }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col">
-                            <select class="form-select rounded-pill" name="mes" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                                <option value="">Mes</option>
-                                {% for mes in meses %}
-                                <option value="{{ mes }}" {% if request.form.get("mes")==mes %} selected {% endif %}>{{ mes }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col">
-                            <select class="form-select rounded-pill" name="año" style="font-family: 'Delius', system-ui; font-size: 18px;" required>
-                                <option value="">Año</option>
-                                {% for año in años %}
-                                <option value="{{ año }}" {% if request.form.get("año")==año %} selected {% endif %}>{{ año }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                        <input type="date" name="fecha_nacimiento" class="form-control mb-3">
                     </div>
                     <hr>
 

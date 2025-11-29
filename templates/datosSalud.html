@@ -80,22 +80,22 @@
 
                         <div class="mb-3">
                             <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Condiciones Medicas:</label>
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="condiciones_medicas" placeholder="Condiciones medicas que presentes" required
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="condiciones_medicas" placeholder="Condiciones medicas que presentes"
                                 value="{{ request.form.get('condiciones_medicas','') }}">
                         </div>
                         <div class="mb-3">
                             <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Medicamentos:</label>
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="medicamentos" placeholder="Medicamentos" required
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="medicamentos" placeholder="Medicamentos"
                                 value="{{ request.form.get('medicamentos','') }}">
                         </div>
                         <div class="mb-3">
                             <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Alergias:</label>
-                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="alergias_alimentarias" placeholder="Alergias" required
+                            <input style="font-family: 'Delius', system-ui; font-size: 18px;" type="text" class="form-control" name="alergias_alimentarias" placeholder="Alergias"
                                 value="{{ request.form.get('alergias_alimentarias','') }}">
                         </div>
                         <div class="mb-3">
                         <label style="font-family: 'Leckerli One', system-ui; font-size: 20px;" class="form-label">Preferencias alimenticias:</label>
-                        <select class="form-select rounded-pill" name="preferencias_alimentarias" style="font-family: 'Delius', system-ui; font-size: 18px;" multiple>
+                        <select class="form-select rounded-pill" name="preferencias_alimentarias" style="font-family: 'Delius', system-ui; font-size: 18px;">
                             <option value="vegetariano">Vegetariano</option>
                             <option value="vegano">Vegano</option>
                             <option value="sin_gluten">Sin gluten</option>

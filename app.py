@@ -43,10 +43,6 @@ def obtener_usuario_por_email(email):
         return None
 
 
-
-
-
-
 # ================================================
 #               Rutas Principales
 # ================================================
@@ -90,6 +86,46 @@ def perfil():
 
 
 
+# ================================================
+#    Editar información del usuario
+# ================================================
+
+@app.route('/editarUsuario', methods=['GET', 'POST'])
+def editarUsuario():
+    if 'usuario_id' not in session:
+        flash("Inicia sesión para editar tu información", "error")
+        return redirect(url_for('sesion'))
+
+    usuario_id = session['usuario_id']
+    cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        paterno = request.form['paterno']
+        materno = request.form['materno']
+        genero = request.form['genero']
+        telefono = request.form['telefono']
+        fecha_nacimiento = request.form['fecha_nacimiento']
+
+        cur.execute("""
+            UPDATE usuarios 
+            SET nombre=%s, paterno=%s, materno=%s, 
+                genero=%s, telefono=%s, fecha_nacimiento=%s 
+            WHERE id=%s
+        """, (nombre, paterno, materno, genero, telefono, fecha_nacimiento, usuario_id))
+
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Información actualizada correctamente", "success")
+        return redirect(url_for('perfil'))
+
+    # Obtener datos actuales
+    cur.execute("SELECT * FROM usuarios WHERE id=%s", (usuario_id,))
+    usuario = cur.fetchone()
+    cur.close()
+
+    return render_template("editarUsuario.html", usuario=usuario)
 
 
 # ================================================
@@ -117,7 +153,7 @@ def registrame():
     email = request.form["email"]
     password = request.form["password"]
     confirm = request.form["confirmaContraseña"]
-    fecha_nacimiento = request.form.get("fecha_nacimiento")
+    fecha_nacimiento = request.form['fecha_nacimiento']
     genero = request.form.get("genero")
     telefono = request.form.get("telefono")
 
@@ -241,12 +277,12 @@ def guardar_info_salud():
 
     #si exite ya un registro de datos de salud y el usuario vuelve a cambiar los datos se ejecuta un Update
     if existe:
-        cur.execute('UPDATE perfiles_usuario SET altura_cm=%s, peso_actual_kg=%s, peso_objetivo_kg=%s, nivel_actividad=%s, objetivo_salud=%s, meta_semanal=%s, condiciones_medicas=%s, medicamentos=%s,  alergias_alimentarias=%s,preferencias_alimenticias=%s WHERE usuario_id=%s', 
+        cur.execute('UPDATE perfiles_usuario SET altura_cm=%s, peso_actual_kg=%s, peso_objetivo_kg=%s, nivel_actividad=%s, objetivo_salud=%s, meta_semanal=%s, condiciones_medicas=%s, medicamentos=%s,  alergias_alimentarias=%s,preferencias_alimentarias=%s WHERE usuario_id=%s', 
                     (altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal, condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimentarias, usuario_id)
         )
         #si no existe un regiestro previo entonces se inserta los datos del formulario de salud
     else:
-        cur.execute('INSERT INTO perfiles_usuario (usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal,condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimenticias) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
+        cur.execute('INSERT INTO perfiles_usuario (usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal,condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimentarias) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
                     (usuario_id, altura_cm, peso_actual_kg, peso_objetivo_kg, nivel_actividad, objetivo_salud, meta_semanal, condiciones_medicas, medicamentos, alergias_alimentarias, preferencias_alimentarias)
         )
 
@@ -261,70 +297,118 @@ def guardar_info_salud():
 #         Calculadoras
 # ================================================
 
-@app.route('/calculadoras', methods=['GET', 'POST'])
+@app.route('/calculadoras')
 def calculadoras():
-    imc_resultado = None
-    tmb_resultado = None
-    gct_resultado = None
-    peso_ideal_resultado = None
-    macronutrientes_resultado = None
+    return render_template("calculadoras.html")
+
+
+@app.route('/calcularImc', methods=['GET', 'POST'])
+def calcularImc():
+    resultado = None
+    clasificacion = None
 
     if request.method == 'POST':
-        if 'calcular_imc' in request.form:
-            peso = float(request.form['peso_imc'])
-            altura = float(request.form['altura_imc'])
-            imc = peso / (altura ** 2)
-            imc_resultado = f"Tu IMC es: {imc:.2f}"
+        peso = float(request.form['peso'])
+        altura = float(request.form['altura'])
+        imc = peso / (altura**2)
 
-        if 'calcular_tmb' in request.form:
-            edad = int(request.form['edad_tmb'])
-            peso = float(request.form['peso_tmb'])
-            altura = float(request.form['altura_tmb'])
-            sexo = request.form['sexo_tmb']
-            if sexo == 'hombre':
-                tmb = 10 * peso + 6.25 * altura - 5 * edad + 5
-            else:
-                tmb = 10 * peso + 6.25 * altura - 5 * edad - 161
-            tmb_resultado = f"Tu TMB es: {tmb:.2f} kcal/día"
+        # Resultado numérico
+        resultado = f"Tu IMC es: {imc:.2f}"
 
-        if 'calcular_gct' in request.form:
-            tmb = float(request.form['tmb_gct'])
-            actividad = request.form['actividad_gct']
-            if actividad == 'sedentario':
-                gct = tmb * 1.2
-            elif actividad == 'ligera':
-                gct = tmb * 1.375
-            elif actividad == 'moderada':
-                gct = tmb * 1.55
-            elif actividad == 'intensa':
-                gct = tmb * 1.725
-            gct_resultado = f"Tu GCT es: {gct:.2f} kcal/día"
+        # Clasificación IMC
+        if imc < 18.5:
+            clasificacion = "Bajo peso"
+        elif 18.5 <= imc < 25:
+            clasificacion = "Peso normal"
+        elif 25 <= imc < 30:
+            clasificacion = "Sobrepeso"
+        elif 30 <= imc < 35:
+            clasificacion = "Obesidad grado I"
+        elif 35 <= imc < 40:
+            clasificacion = "Obesidad grado II"
+        else:
+            clasificacion = "Obesidad grado III"
 
-        if 'calcular_peso_ideal' in request.form:
-            altura = float(request.form['altura_ideal'])
-            if altura < 3:
-                altura *= 100
+    return render_template("caImc.html",
+                            resultado=resultado,
+                            clasificacion=clasificacion)
 
-            sexo = request.form['peso_ideal']
-            if sexo == 'hombre':
-                peso_ideal = altura - 100 - ((altura - 150) / 4)
-            else:
-                peso_ideal = altura - 100 - ((altura - 150) / 2)
-            peso_ideal_resultado = f"Tu peso ideal es: {peso_ideal:.2f} kg"
 
-        if 'calcular_macronutrientes' in request.form:
-            gct = float(request.form['gct_macronutrientes'])
-            proteinas = gct * 0.25 / 4
-            carbohidratos = gct * 0.45 / 4
-            grasas = gct * 0.30 / 9
-            macronutrientes_resultado = f"Proteínas: {proteinas:.2f} g, Carbohidratos: {carbohidratos:.2f} g, Grasas: {grasas:.2f} g"
+@app.route('/calcularTmb', methods=['GET', 'POST'])
+def calcularTmb():
+    resultado = None
 
-    return render_template("calculadoras.html", 
-                            imc_resultado=imc_resultado,
-                            tmb_resultado=tmb_resultado,
-                            gct_resultado=gct_resultado,
-                            peso_ideal_resultado=peso_ideal_resultado,
-                            macronutrientes_resultado=macronutrientes_resultado)
+    if request.method == 'POST':
+        edad = int(request.form['edad'])
+        peso = float(request.form['peso'])
+        altura = float(request.form['altura'])
+        sexo = request.form['sexo']
+
+        if sexo == 'hombre':
+            tmb = 10*peso + 6.25*altura - 5*edad + 5
+        else:
+            tmb = 10*peso + 6.25*altura - 5*edad - 161
+
+        resultado = f"Tu TMB es: {tmb:.2f} kcal/día"
+
+    return render_template("calTmb.html", resultado=resultado)
+
+
+@app.route('/calcularGct', methods=['GET', 'POST'])
+def calcularGct():
+    resultado = None
+
+    if request.method == 'POST':
+        tmb = float(request.form['tmb'])
+        actividad = request.form['actividad']
+
+        factores = {
+            'sedentario': 1.2,
+            'ligera': 1.375,
+            'moderada': 1.55,
+            'intensa': 1.725
+        }
+
+        gct = tmb * factores[actividad]
+        resultado = f"Tu GCT es: {gct:.2f} kcal/día"
+
+    return render_template("calGct.html", resultado=resultado)
+
+
+@app.route('/calcularPesoIdeal', methods=['GET', 'POST'])
+def calcularPesoIdeal():
+    resultado = None
+
+    if request.method == 'POST':
+        altura = float(request.form['altura'])
+        if altura < 3:
+            altura *= 100
+
+        sexo = request.form['sexo']
+
+        if sexo == 'hombre':
+            peso_ideal = altura - 100 - ((altura-150)/4)
+        else:
+            peso_ideal = altura - 100 - ((altura-150)/2)
+
+        resultado = f"Tu peso ideal es: {peso_ideal:.2f} kg"
+
+    return render_template("calPesoI.html", resultado=resultado)
+
+
+@app.route('/calcularMacronutrientes', methods=['GET', 'POST'])
+def calcularMacronutrientes():
+    resultado = None
+
+    if request.method == 'POST':
+        gct = float(request.form['gct'])
+        prote = gct*0.25/4
+        carbo = gct*0.45/4
+        grasas = gct*0.30/9
+
+        resultado = f"Proteínas: {prote:.2f} g – Carbohidratos: {carbo:.2f} g – Grasas: {grasas:.2f} g"
+
+    return render_template("calMacro.html", resultado=resultado)
 
 
 # ================================================

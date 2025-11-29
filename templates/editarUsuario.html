@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4" style="border-radius: 20px;">
+                <h2 class="text-center mb-4" style="font-family: 'Leckerli One', cursive;">
+                    Editar Información
+                </h2>
+                <hr>
+
+                <form method="POST">
+
+                    <label>Nombre:</label>
+                    <input type="text" name="nombre" class="form-control mb-3" value="{{ usuario[3] }}" required>
+
+                    <label>Apellido Paterno:</label>
+                    <input type="text" name="paterno" class="form-control mb-3" value="{{ usuario[4] }}" required>
+
+                    <label>Apellido Materno:</label>
+                    <input type="text" name="materno" class="form-control mb-3" value="{{ usuario[5] }}" required>
+
+                    <label>Género:</label>
+                    <select name="genero" class="form-control mb-3">
+                        <option value="Hombre" {% if usuario[7]=="Hombre" %}selected{% endif %}>Hombre</option>
+                        <option value="Mujer" {% if usuario[7]=="Mujer" %}selected{% endif %}>Mujer</option>
+                        <option value="Otro" {% if usuario[7]=="Otro" %}selected{% endif %}>Otro</option>
+                    </select>
+
+                    <label>Teléfono:</label>
+                    <input type="text" name="telefono" class="form-control mb-3" value="{{ usuario[8] }}">
+
+                    <label>Fecha de nacimiento:</label>
+                    <input type="date" name="fecha_nacimiento" class="form-control mb-3" value="{{ usuario[6] }}">
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-outline-secondary ms-2" style="font-family: 'Leckerli One';">
+                            Guardar cambios
+                        </button>
+
+                        <a href="{{ url_for('perfil') }}" class="btn btn-outline-secondary ms-2" style="font-family: 'Leckerli One';">
+                            Cancelar
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

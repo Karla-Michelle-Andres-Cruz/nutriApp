@@ -16,12 +16,17 @@
             <p><strong>Apellido Materno:</strong> {{ usuario[5] }}</p>
             <p><strong>Género:</strong> {{ usuario[7] }}</p>
             <p><strong>Correo:</strong> {{ usuario[1] }}</p>
+            <p><strong>Fecha de nacimiento:</strong> {{ usuario[6] }}</p>
+
+            <div class="text-center mt-4">
+              <a style="font-family: 'Leckerli One';" href="{{ url_for('editarUsuario') }}" class="btn btn-outline-secondary">Editar Informacion</a>
+            </div>
+
         {% else %}
             <div class="alert alert-warning text-center">
                 No se encontró información del usuario.
             </div>
         {% endif %}
-
 
         <div class="text-center mt-4">
           <a style="font-family: 'Leckerli One';" href="{{ url_for('inicio') }}" class="btn btn-outline-secondary">Volver al inicio</a>
@@ -45,25 +50,12 @@
           <p><strong>Condiciones médicas:</strong> {{ salud[8] }}</p>
           <p><strong>Medicamentos:</strong> {{ salud[9] }}</p>
           <p><strong>Alergias alimentarias:</strong> {{ salud[10] }}</p>
-
-          <p><strong>Preferencias alimenticias:</strong></p>
-          <ul>
-            {% if salud[11] %}
-              {% for p in salud[11].split(',') %}
-                {% if p %}
-                  <li>{{ p }}</li>
-                {% endif %}
-              {% endfor %}
-            {% else %}
-              <li>No especificadas</li>
-            {% endif %}
-          </ul>
+          <p><strong>Preferencias alimenticias:</strong> {{ salud[11] }}</p>
         {% else %}
             <div class="alert alert-warning text-center">
                 Aún no has registrado tus datos de salud.
             </div>
         {% endif %}
-
 
         <div class="text-center mt-4">
           <a style="font-family: 'Leckerli One';" href="{{ url_for('formSalud') }}" class="btn btn-outline-secondary">Actualizar datos</a>

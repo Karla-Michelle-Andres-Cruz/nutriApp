@@ -2,24 +2,24 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Calculadora de Peso Ideal</h2>
+    <h2 class="text-center mb-4" style="font-family: 'Leckerli One', system-ui; font-size: 30px;">Calculadora de Peso Ideal</h2>
 
     <form method="POST" class="card p-4 shadow col-md-6 mx-auto">
 
         <div class="mb-3">
-            <label>Altura (cm)</label>
+            <label style="font-family: 'Delius', system-ui; font-size: 18px;">Altura (cm)</label>
             <input type="number" name="altura" class="form-control" required>
         </div>
 
         <div class="mb-3">
-            <label>Sexo</label>
+            <label style="font-family: 'Delius', system-ui; font-size: 18px;">Sexo</label>
             <select name="sexo" class="form-select">
                 <option value="hombre">Hombre</option>
                 <option value="mujer">Mujer</option>
             </select>
         </div>
 
-        <button class="btn btn-warning w-100">Calcular Peso Ideal</button>
+        <button class="btn btn-outline-secondary w-100" style="font-family: 'Delius', system-ui; font-size: 18px;">Calcular Peso Ideal</button>
 
         {% if resultado %}
         <div class="alert alert-success mt-3 text-center">{{ resultado }}</div>

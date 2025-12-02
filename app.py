@@ -423,50 +423,50 @@ def sabermas():
 #               Busacador de alimentos
 # ================================================
 
-@app.route("/buscar_alimentos")
-def buscar_alimentos():
+@app.route("/alimentos", methods=["GET"])
+def alimentos():
     return render_template("recetas.html")
 
 
 @app.route("/search", methods=["POST"])
 def buscar_alimento():
-    comNombre = request.form.get("food_name", "").strip().lower()
+    nombreAli = request.form.get("food_name", "").strip().lower()
 
-    if not comNombre:
+    if not nombreAli:
         flash("Por favor, ingresa el nombre de un alimento.", "error")
-        return redirect(url_for("buscar_alimentos"))
+        return redirect(url_for("inicio"))
 
     try:
-        buscaUrl = f"{API_BASE}foods/search?query={comNombre}&api_key={API_KEY}"
-        busResponse = requests.get(buscaUrl)
+        buscaURL = f"{API_BASE}foods/search?query={nombreAli}&api_key={API_KEY}"
+        buscaRes = requests.get(buscaURL)
 
-        if busResponse.status_code != 200:
+        if buscaRes.status_code != 200:
             flash("No se pudo conectar con la API del USDA.", "error")
-            return redirect(url_for("buscar_alimentos"))
+            return redirect(url_for("index"))
 
-        busData = busResponse.json()
+        buscaData = buscaRes.json()
 
-        if "foods" not in busData or len(busData["foods"]) == 0:
-            flash(f'No se encontraron resultados para "{comNombre}".', "error")
-            return redirect(url_for("buscar_alimentos"))
+        if "foods" not in buscaData or len(buscaData["foods"]) == 0:
+            flash(f'No se encontraron resultados para "{nombreAli}".', "error")
+            return redirect(url_for("index"))
 
-        comida = busData["foods"][0]
-        fdc_id = comida["fdcId"]
+        food = buscaData["foods"][0]
+        fdc_id = food["fdcId"]
 
-        detUrl = f"{API_BASE}food/{fdc_id}?api_key={API_KEY}"
-        detResponse = requests.get(detUrl)
-        detData = detResponse.json()
+        detalleURL = f"{API_BASE}food/{fdc_id}?api_key={API_KEY}"
+        detalleRespu = requests.get(detalleURL)
+        detalleData = detalleRespu.json()
 
         food_info = {
-            "description": detData.get("description", "Sin descripción"),
-            "fdcId": detData.get("fdcId"),
-            "nutrientes": [
+            "description": detalleData.get("description", "Sin descripción"),
+            "fdcId": detalleData.get("fdcId"),
+            "nutrients": [
                 {
-                    "name": n.get("nutrientName", ""),
-                    "amount": n.get("value"),
-                    "unit": n.get("unitName", "")
+                    "name": n.get("nutrient", {}).get("name", ""),
+                    "amount": n.get("amount"),
+                    "unit": n.get("nutrient", {}).get("unitName", "")
                 }
-                for n in detData.get("foodNutrients", [])
+                for n in detalleData.get("foodNutrients", [])
             ]
         }
 
@@ -474,7 +474,10 @@ def buscar_alimento():
 
     except requests.exceptions.RequestException:
         flash("Error al conectar con la API del USDA. Intenta de nuevo más tarde.", "error")
-        return redirect(url_for("buscar_alimentos"))
+        return redirect(url_for("index"))
+
+
+
 
 
 if __name__ == "__main__":

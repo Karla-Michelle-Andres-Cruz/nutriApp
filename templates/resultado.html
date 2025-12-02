@@ -2,31 +2,31 @@
 
 {% block content %}
 <div class="container py-5">
-    <h1 class="text-center mb-4">{{ food.description }}</h1>
-    <p class="text-center text-muted">FDC ID: {{ food.fdcId }}</p>
+    <p class="text-center mb-4" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">{{ food.description }}</p>
+    <p class="text-center text-muted" style="font-family: 'Leckerli One', system-ui; font-size: 40x;">FDC ID: {{ food.fdcId }}</p>
 
-    <h3 class="mt-4">Información nutricional:</h3>
+    <h3 class="mt-4" style="font-family: 'Leckerli One', system-ui;">Información nutricional:</h3>
     <table class="table table-striped mt-3">
         <thead>
             <tr>
-                <th>Nutriente</th>
-                <th>Cantidad</th>
-                <th>Unidad</th>
+                <th style="font-family: 'Delius', system-ui; font-size: 18px;">Nutrientes</th>
+                <th style="font-family: 'Delius', system-ui; font-size: 18px;">Cantidad</th>
+                <th style="font-family: 'Delius', system-ui; font-size: 18px;">Unidad</th>
             </tr>
         </thead>
         <tbody>
             {% for nutrient in food.nutrients %}
             <tr>
-                <td>{{ nutrientes.name }}</td>
-                <td>{{ nutrientes.amount }}</td>
-                <td>{{ nutrientes.unit }}</td>
+                <td style="font-family: 'Delius', system-ui; font-size: 18px;">{{ nutrient.name }}</td>
+                <td style="font-family: 'Delius', system-ui; font-size: 18px;">{{ nutrient.amount }}</td>
+                <td style="font-family: 'Delius', system-ui; font-size: 18px;">{{ nutrient.unit }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
     <div class="text-center mt-4">
-        <a href="{{ url_for('inicio') }}" class="btn btn-secondary">Volver</a>
+        <a style="font-family: 'Leckerli One';" href="{{ url_for('alimentos') }}" class="btn btn-outline-secondary">Volver a buscar</a>
     </div>
 </div>
 {% endblock %}

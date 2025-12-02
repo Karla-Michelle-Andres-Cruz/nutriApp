@@ -136,13 +136,7 @@ def editarUsuario():
 #manda la fecha a el formulario registro 
 @app.route("/registro")
 def registro():
-    dias = list(range(1, 32))
-    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-    año_actual = datetime.now().year
-    años = list(range(año_actual, 1905, -1))
-
-    return render_template("registro.html", dias=dias, meses=meses, años=años)
+    return render_template("registro.html")
 
 
 @app.route("/registrame", methods=["POST"])

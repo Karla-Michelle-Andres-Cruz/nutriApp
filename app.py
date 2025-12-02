@@ -425,7 +425,7 @@ def sabermas():
 
 @app.route("/alimentos", methods=["GET"])
 def alimentos():
-    return render_template("recetas.html")
+    return render_template("alimento.html")
 
 
 @app.route("/search", methods=["POST"])

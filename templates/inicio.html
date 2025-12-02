@@ -2,7 +2,6 @@
 {% block content %}
 
     <div class="container py-5">
-        <!-- Hero Section -->
         <div class="bg-white rounded-4 shadow-lg p-5 mb-5">
             <div class="text-center">
                 <h1 class="display-1 fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">
@@ -20,6 +19,10 @@
                     </span>
                 </div>
             </div>
+
+            <p class="lead mb-4 fs-4" style="color:#707298;">
+                Tu compañero perfecto para una vida más saludable y equilibrada
+            </p>
 
             <!-- Herramientas Principales -->
             <div class="row g-4 mt-4 mb-5">
@@ -54,12 +57,12 @@
                                 style="width: 80px; height: 80px; background-color: rgba(112, 114, 152, 0.1);">
                                 <i class="bi bi-fire fs-1" style="color:#707298;"></i>
                             </div>
-                            <h5 class="card-title fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">Buscador de Alimentos</h5>
+                            <h5 class="card-title fw-bold mb-3" style="font-family: 'Leckerli One', system-ui; color:#707298;">Registrate</h5>
                             <p class="card-text text-secondary mb-3">
-                                Busca los nutrientes de lo que comes en nuestro buscador.
+                                Registrate para tener mas beneficios y llevar un mejor control de tu salud.
                             </p>
                             <div class="text-center mt-4">
-                                <a style="font-family: 'Leckerli One';" href="{{ url_for('buscar_alimento') }}" class="btn btn-outline-secondary">Buscar</a>
+                                <a style="font-family: 'Leckerli One';" href="{{ url_for('registro') }}" class="btn btn-outline-secondary">Registrate</a>
                             </div>
                         </div>
                     </div>

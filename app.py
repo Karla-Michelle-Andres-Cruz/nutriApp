@@ -475,6 +475,85 @@ def buscar_alimento():
     except requests.exceptions.RequestException:
         flash("Error al conectar con la API del USDA. Intenta de nuevo más tarde.", "error")
         return redirect(url_for("index"))
+    
+
+# ================================================
+#                   analizador
+# ================================================
+
+@app.route('/analizadorRecetas')
+def analizadorRecetas():
+    return render_template("analizador.html")
+
+@app.route('/procesarReceta', methods=['POST'])
+def procesarReceta():
+    receta_texto = request.form.get("receta", "").strip()
+
+    if not receta_texto:
+        flash("Ingresa una receta para analizar.", "error")
+        return redirect(url_for("analizadorRecetas"))
+
+    lineas = receta_texto.split("\n")
+
+    ingredientes = []
+    nutrientes_totales = {}
+
+    for linea in lineas:
+        linea = linea.strip()
+        if not linea:
+            continue
+
+        #extracción de cantidad y alimento
+        partes = linea.split(" ", 1)
+
+        # Si empieza con número → es cantidad + alimento
+        try:
+            cantidad = float(partes[0])
+            alimento = partes[1] if len(partes) > 1 else partes[0]
+        except:
+            # Si no ponen cantidad (ej: "apple")
+            cantidad = 1
+            alimento = linea
+
+        alimento = alimento.lower()
+
+        #Buscar alimento en la API
+        url_busqueda = f"{API_BASE}foods/search?query={alimento}&api_key={API_KEY}"
+        res = requests.get(url_busqueda)
+
+        if res.status_code != 200:
+            continue
+
+        data = res.json()
+
+        if "foods" not in data or len(data["foods"]) == 0:
+            continue
+
+        fdc_id = data["foods"][0]["fdcId"]
+
+        #obtener detalles del alimento
+        detalle = requests.get(f"{API_BASE}food/{fdc_id}?api_key={API_KEY}").json()
+
+        nutrientes = detalle.get("foodNutrients", [])
+
+        # Agregar nutrientes a totales
+        for n in nutrientes:
+            nombre_nutriente = n.get("nutrient", {}).get("name")
+            unidad = n.get("nutrient", {}).get("unitName")
+            cantidad_base = n.get("amount", 0)
+
+            clave = f"{nombre_nutriente} ({unidad})"
+
+            # multiplicar por la cantidad
+            nutrientes_totales[clave] = nutrientes_totales.get(clave, 0) + (cantidad_base * cantidad)
+
+        ingredientes.append(f"{cantidad} {alimento}")
+
+    # enviar resultados a la plantilla
+    return render_template("resultadoReceta.html",
+                            ingredientes=ingredientes,
+                            nutrientes=nutrientes_totales)
+
 
 
 

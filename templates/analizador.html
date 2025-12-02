@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+    <h2 class="text-center" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">Analizador de Recetas</h2>
+
+    <form action="{{ url_for('procesarReceta') }}" method="POST">
+        <label for="receta" style="font-family: 'Delius', system-ui; font-size: 18px;">Pega tu receta:</label>
+        <textarea style="font-family: 'Delius', system-ui; font-size: 18px;" name="receta" class="form-control" rows="8"
+            placeholder="Ejemplo:
+        2 apples
+        100g chicken breast
+        1 tbsp olive oil"></textarea>
+        <br>
+        <button class="btn btn-outline-secondary" style="font-family: 'Leckerli One';">Analizar receta</button>
+    </form>
+
+</div>
+
+{% endblock %}

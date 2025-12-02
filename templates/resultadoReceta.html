@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+    <p class="text-center" style="font-family: 'Leckerli One', system-ui; font-size: 48px;">Análisis Nutricional</p>
+    <h4 style="font-family: 'Leckerli One', system-ui;">Ingredientes detectados:</h4>
+    <ul>
+        {% for ing in ingredientes %}
+        <li>{{ ing }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4 style="font-family: 'Leckerli One', system-ui;">Nutrientes Totales</h4>
+    <table class="table table-striped">
+        <tr>
+            <th style="font-family: 'Delius', system-ui; font-size: 18px;">Nutriente</th>
+            <th style="font-family: 'Delius', system-ui; font-size: 18px;">Total</th>
+        </tr>
+        {% for nombre, valor in nutrientes.items() %}
+        <tr>
+            <td style="font-family: 'Delius', system-ui; font-size: 18px;">{{ nombre }}</td>
+            <td style="font-family: 'Delius', system-ui; font-size: 18px;">{{ valor|round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
